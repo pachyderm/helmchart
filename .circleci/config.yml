@@ -16,5 +16,12 @@ jobs:
     steps:
       - checkout
       - run: mkdir /home/circleci/bin
+      - restore_cache:
+          keys:
+            - go-mod-v4-{{ checksum "go.sum" }}      
       - run: wget -q https://get.helm.sh/helm-v3.5.2-linux-amd64.tar.gz -O - | tar -xzO linux-amd64/helm > /home/circleci/bin/helm && chmod +x /home/circleci/bin/helm
       - run: make test
+      - save_cache:
+          key: go-mod-v4-{{ checksum "go.sum" }}
+          paths:
+            - "/go/pkg/mod"
