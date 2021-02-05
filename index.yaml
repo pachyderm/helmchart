@@ -4,7 +4,7 @@ entries:
   - apiVersion: v2
     appVersion: 1.16.0
     created: "2021-02-05T16:40:11.10452-05:00"
-    description: A Helm chart for Kubernetes
+    description: A fine helm chart 
     digest: f8e47372309e8593f121e9c7dfd52b962b12ff1e3bfc43a9a77155600f759551
     name: pachyderm
     type: application
