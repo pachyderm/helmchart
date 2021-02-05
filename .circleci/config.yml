@@ -15,5 +15,5 @@ jobs:
 
     steps:
       - checkout:
-          path: ~/test
+          path: test
       - run: make test
