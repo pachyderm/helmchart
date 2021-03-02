@@ -101,8 +101,10 @@ imageCredentials:
   username: ""
   password: ""
   email: ""
-  
-tls: #move under ingress? How to make work with cert-manager, maybe add tls option to pachctl create secret?
+
+# move under ingress? How to make work with cert-manager, maybe add
+# tls option to pachctl create secret?
+tls:
   crt:
   key:
 
