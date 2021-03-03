@@ -5,9 +5,12 @@ version: 2
 
 workflows:
   version: 2
-  publish:
+  build-and-publish:
     jobs:
+      - build
       - publish:
+          requires:
+            - build
           filters:
             tags:
               only: /^\d+\.\d+\.\d+$/
