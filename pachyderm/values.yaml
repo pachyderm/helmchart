@@ -111,11 +111,8 @@ imageCredentials: {}
 # move under ingress? How to make work with cert-manager, maybe add
 # tls option to pachctl create secret?
 tls:
-  enabled: ""
-  secret:
-    create: ""
-      crt: ""
-      key: ""
+  crt:
+  key:
 
 rbac:
   create: true
