@@ -29,6 +29,8 @@ spec:
       - command:
         - /pachd
         env:
+        - name: LOKI_LOGGING
+          value: {{ .Values.pachd.lokiLogging | quote}}
         - name: PACH_TRACE
           value: "false" # TODO
         - name: PACH_ROOT

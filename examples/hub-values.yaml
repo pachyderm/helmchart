@@ -1,0 +1,30 @@
+pachd:
+  image:
+    tag: 1.12.3
+  lokiLogging: "True"
+  metricsEndpoint: "blah"
+  putFileConcurrencyLimit: 10
+  storage:
+    backend: GOOGLE
+    google:
+      googleBucket: "fake-bucket"
+      googleCred: "fake-creds"
+      serviceAccountName: "blah"
+  resources:
+    limits:
+      cpu: "1"
+      memory: 2G
+    requests:
+      cpu: "1"
+      memory: 2G
+
+etcd:
+  resources:
+    requests:
+      cpu: "1"
+      memory: 2G
+
+#TODO
+# TLS
+# Ingress
+# LB Service config

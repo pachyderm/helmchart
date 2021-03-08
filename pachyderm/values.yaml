@@ -29,6 +29,8 @@ pachd:
   clusterDeploymentID: ""
   requireCriticalServersOnly: false
   ppsWorkerGRPCPort: 80
+  lokiLogging: ""
+  metricsEndpoint: ""
   storage:
     backend: "" # GOOGLE, AMAZON, MINIO, MICROSOFT, LOCAL
     google:
@@ -109,8 +111,11 @@ imageCredentials: {}
 # move under ingress? How to make work with cert-manager, maybe add
 # tls option to pachctl create secret?
 tls:
-  crt:
-  key:
+  enabled: ""
+  secret:
+    create: ""
+      crt: ""
+      key: ""
 
 rbac:
   create: true
