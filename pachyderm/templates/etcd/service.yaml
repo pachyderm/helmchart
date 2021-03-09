@@ -6,11 +6,11 @@ metadata:
     app: etcd
     suite: pachyderm
   name: etcd
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - name: client-port
     port: 2379
-    targetPort: client-port
   selector:
     app: etcd
-  type: NodePort #TODO ClusterIP
+  type: ClusterIP

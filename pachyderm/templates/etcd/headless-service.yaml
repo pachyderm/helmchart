@@ -6,11 +6,11 @@ metadata:
     app: etcd
     suite: pachyderm
   name: etcd-headless
+  namespace: {{ .Release.Namespace }}
 spec:
   clusterIP: None
   ports:
   - name: peer-port
     port: 2380
-    targetPort: 0 #TODO
   selector:
     app: etcd
