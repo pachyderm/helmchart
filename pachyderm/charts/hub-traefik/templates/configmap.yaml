@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: release-name-traefik
+  labels:
+    app: traefik
+    chart: "traefik-2.4.7"
+    release: "release-name"
+    heritage: "Tiller"
+data:
+  traefik.toml: |
+    logLevel = "info"
+    defaultEntryPoints = ["http","https"]
+    [entryPoints]
+      [entryPoints.http]
+      address = ":80"
+      compress = true
+      [entryPoints.https]
+      address = ":443"
+      compress = true
+        [entryPoints.https.tls]
+          [[entryPoints.https.tls.certificates]]
+          CertFile = "/ssl/tls.crt"
+          KeyFile = "/ssl/tls.key"
+      [entryPoints.traefik]
+      address = ":8080"
+    [ping]
+    entryPoint = "http"
+    [kubernetes]
+    [traefikLog]
+      format = "json"
+    [api]
+      entryPoint = "traefik"
+      dashboard = true
