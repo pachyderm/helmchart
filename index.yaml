@@ -3,6 +3,18 @@ entries:
   pachyderm:
   - apiVersion: v2
     appVersion: 1.12.4
+    created: "2021-03-15T21:08:54.769027774Z"
+    description: A Helm chart for Kubernetes
+    digest: 83f6df2a82f9872a31eec729e4ffb241bf84b919afe24ca4178e1b4c1f65334a
+    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
+    kubeVersion: '>= 1.16'
+    name: pachyderm
+    type: application
+    urls:
+    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-0.2.0/pachyderm-0.2.0.tgz
+    version: 0.2.0
+  - apiVersion: v2
+    appVersion: 1.12.4
     created: "2021-03-08T19:18:25.345753831Z"
     description: A Helm chart for Kubernetes
     digest: 00de2fbcbd5968dcb835e918331e30361bd44869d48e95ab77f316758f706648
