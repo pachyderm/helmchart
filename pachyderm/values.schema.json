@@ -53,7 +53,7 @@
             "type": "object",
             "properties": {
                 "authenticationDisabledForTesting": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "blockCacheBytes": {
                     "type": "string"
@@ -62,7 +62,7 @@
                     "type": "string"
                 },
                 "exposeObjectAPI": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "image": {
                     "type": "object",
@@ -85,7 +85,7 @@
                     "type": "object",
                     "properties": {
                         "enabled": {
-                            "type": "string"
+                            "type": "boolean"
                         },
                         "endpoint": {
                             "type": "string"
@@ -93,16 +93,16 @@
                     }
                 },
                 "noExposeDockerSocket": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "numShards": {
                     "type": "integer"
                 },
                 "ppsWorkerGRPCPort": {
-                    "type": "string"
+                    "type": "integer"
                 },
                 "requireCriticalServersOnly": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "resources": {
                     "type": "object"
@@ -163,7 +163,7 @@
                                     "type": "string"
                                 },
                                 "disableSSL": {
-                                    "type": "string"
+                                    "type": "boolean"
                                 },
                                 "iamRole": {
                                     "type": "string"
@@ -172,16 +172,16 @@
                                     "type": "string"
                                 },
                                 "maxUploadParts": {
-                                    "type": "string"
+                                    "type": "integer"
                                 },
                                 "noVerifySSL": {
-                                    "type": "string"
+                                    "type": "boolean"
                                 },
                                 "partSize": {
-                                    "type": "string"
+                                    "type": "integer"
                                 },
                                 "retries": {
-                                    "type": "string"
+                                    "type": "integer"
                                 },
                                 "reverse": {
                                     "type": "string"

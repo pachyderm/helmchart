@@ -19,16 +19,16 @@ pachd:
     #  memory: 2G  
   logLevel: info
   metrics:
-    enabled: "true"
+    enabled: true
     endpoint: ""
-  noExposeDockerSocket: "false"
+  noExposeDockerSocket: false
   numShards: 16
   blockCacheBytes: "1G"
-  authenticationDisabledForTesting: "false"
-  exposeObjectAPI: "false"
+  authenticationDisabledForTesting: false
+  exposeObjectAPI: false
   clusterDeploymentID: ""
-  requireCriticalServersOnly: "false"
-  ppsWorkerGRPCPort: "80"
+  requireCriticalServersOnly: false
+  ppsWorkerGRPCPort: 80
   storage:
     backend: "" # GOOGLE, AMAZON, MINIO, MICROSOFT, LOCAL
     google:
@@ -46,15 +46,15 @@ pachd:
       amazon-vault-token: ""
       amazonDistribution: ""
       customEndpoint: ""
-      retries: "10"
+      retries: 10
       timeout: "5m"
       uploadACL: bucket-owner-full-control
       reverse: "true"
-      partSize: "5242880"
-      maxUploadParts: "10000"
-      disableSSL: "false"
+      partSize: 5242880
+      maxUploadParts: 10000
+      disableSSL: false
       logOptions: ""
-      noVerifySSL: "false"
+      noVerifySSL: false
       iamRole: "" #TODO - ensure iam role wired up in all places
     microsoft:
       microsoftContainer: ""
