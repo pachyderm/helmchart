@@ -58,7 +58,7 @@ func TestPachdImageTag(t *testing.T) {
 	helmChartPath := "../pachyderm"
 
 	options := &helm.Options{
-		SetValues: map[string]string{"pachd.image.tag": "1234"},
+		SetValues: map[string]string{"pachd.image.tag": "blah1234"},
 	}
 
 	output := helm.RenderTemplate(t, options, helmChartPath, "deployment", []string{"templates/pachd/deployment.yaml"})
