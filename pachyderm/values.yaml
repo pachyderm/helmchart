@@ -19,16 +19,16 @@ pachd:
     #  memory: 2G  
   logLevel: info
   metrics:
-    enabled: true
+    enabled: "true"
     endpoint: ""
-  noExposeDockerSocket: false
+  noExposeDockerSocket: "false"
   numShards: 16
-  blockCacheBytes: 1G
-  authenticationDisabledForTesting: false
-  exposeObjectAPI: false
+  blockCacheBytes: "1G"
+  authenticationDisabledForTesting: "false"
+  exposeObjectAPI: "false"
   clusterDeploymentID: ""
-  requireCriticalServersOnly: false
-  ppsWorkerGRPCPort: 80
+  requireCriticalServersOnly: "false"
+  ppsWorkerGRPCPort: "80"
   storage:
     backend: "" # GOOGLE, AMAZON, MINIO, MICROSOFT, LOCAL
     google:
@@ -91,7 +91,7 @@ etcd:
     repository: pachyderm/etcd
     tag: "v3.3.5"
     pullPolicy: IfNotPresent
-  storageSize: 10Gi    
+  storageSize: "10Gi"
   resources: {}
     #limits:
     #  cpu: "1"
@@ -109,8 +109,8 @@ imageCredentials: {}
 # move under ingress? How to make work with cert-manager, maybe add
 # tls option to pachctl create secret?
 tls:
-  crt:
-  key:
+  crt: ""
+  key: ""
 
 rbac:
   create: true
