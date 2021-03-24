@@ -42,6 +42,8 @@ jobs:
       - run: wget -q "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl" -O /home/circleci/bin/kubectl && chmod +x /home/circleci/bin/kubectl
       - run: wget -q https://storage.googleapis.com/get-faster-ci/$(uname -sm |sed 's/ /-/')/testctl -O /home/circleci/bin/testctl && chmod +x /home/circleci/bin/testctl
       - run: testctl login --token "$TESTFASTER_TOKEN"
+      - run: testctl get
+      - run: env KUBECONFIG=$(pwd)/kubeconfig helm install pachyderm -f examples/local-values.yaml 
       - run: make lint
       - run: make test
       - run: make kubeval-gcp
