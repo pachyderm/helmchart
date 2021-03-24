@@ -21,7 +21,7 @@ pachd:
 
 
 dash:
-  # resources: {} Doesn't work
+  resources: null
   service:
     type: NodePort
 
