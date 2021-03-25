@@ -3,7 +3,7 @@ base:
   kernel_image: quay.io/testfaster/ignite-kernel
   os_dockerfile: |-
     # This dockerfile defines the base disk image for your VMs
-    ENV bump-cache 1
+    ENV bump-cache 2
     FROM quay.io/testfaster/kube-ubuntu
     RUN touch /root/hello-world.txt
   docker_bake_script: |-
