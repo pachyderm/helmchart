@@ -178,8 +178,8 @@ func TestAmazonStoragePachDeploymentEnvVars(t *testing.T) {
 				t.Errorf("got %q, want %q", secretKeyRef.Name, secretName)
 			}
 			boolRef := true
-			if secretKeyRef.Optional != &boolRef {
-				t.Errorf("got %q, want %q", secretKeyRef.Name, secretName)
+			if *secretKeyRef.Optional != boolRef {
+				t.Errorf("got %t, want %t", *secretKeyRef.Optional, boolRef)
 			}
 
 		})
