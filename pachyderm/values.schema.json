@@ -407,9 +407,6 @@
                         },
                         "repository": {
                             "type": "string"
-                        },
-                        "tag": {
-                            "type": "string"
                         }
                     }
                 },
