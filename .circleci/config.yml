@@ -24,7 +24,7 @@ jobs:
   build:
     docker:
       - image: tiltdev/circleci-kind:v1.4.0
-
+    resource_class: xlarge
     steps:
       - setup_remote_docker
       - checkout
