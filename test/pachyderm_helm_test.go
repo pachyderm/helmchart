@@ -362,6 +362,15 @@ func GetEnvVarByName(envVars []v1.EnvVar, name string) (error, string) {
 	return errors.New("Not found"), ""
 }
 
+func GetSecretEnvVarByName(envVars []v1.EnvVar, name string) (error, *v1.EnvVarSource) {
+	for _, v := range envVars {
+		if v.Name == name {
+			return nil, v.ValueFrom
+		}
+	}
+	return errors.New("Not found"), nil
+}
+
 //Tests todo
 /*
 Overall
