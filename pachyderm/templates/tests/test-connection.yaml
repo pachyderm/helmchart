@@ -11,7 +11,7 @@ metadata:
 spec:
   containers:
     - name: nc
-      image: "alpine"
+      image: "alpine:3.13.3"
       command: ['/bin/sh', '-c', '--']
       args: ['while ! nc -vz pachd-peer 30653 ; do sleep 1 ; done']
   restartPolicy: Never

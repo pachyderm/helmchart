@@ -51,3 +51,19 @@ $ helm schema-gen values.yaml > values.schema.json
 go install github.com/instrumenta/kubeval
 kubeval helmmanifest.yaml
 ```
+
+## Test Helm Policies with Conftest
+
+[Conftest](https://github.com/open-policy-agent/conftest) is a framework to write tests against structured configuration data.
+
+### Install Conftest
+
+```shell
+$ helm plugin install https://github.com/instrumenta/helm-conftest
+```
+
+### Run the tests
+
+```shell
+$ helm conftest pachyderm -f ./examples/gcp-values.yaml
+```
