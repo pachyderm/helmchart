@@ -56,6 +56,9 @@
                             "type": "string"
                         }
                     }
+                },
+                "url": {
+                    "type": "string"
                 }
             }
         },
@@ -128,6 +131,14 @@
         "imagePullSecret": {
             "type": "string"
         },
+        "loadBalancer": {
+            "type": "object",
+            "properties": {
+                "ip": {
+                    "type": "string"
+                }
+            }
+        },
         "pachd": {
             "type": "object",
             "properties": {
@@ -161,6 +172,9 @@
                     }
                 },
                 "logLevel": {
+                    "type": "string"
+                },
+                "lokiLogging": {
                     "type": "string"
                 },
                 "metrics": {
