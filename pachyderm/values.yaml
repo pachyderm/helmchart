@@ -82,7 +82,7 @@ pachd:
     pullPolicy: "IfNotPresent"
     tag: "1.13.0-rc.1"
   logLevel: "info"
-  lokiLogging: ""
+  lokiLogging: false
   metrics:
     enabled: true
     endpoint: ""
@@ -240,13 +240,16 @@ rbac:
   # of --local-roles passed to pachctl deploy.
   clusterRBAC: true
 
-# move under ingress? How to make work with cert-manager, maybe add
-# tls option to pachctl create secret?
 tls:
-  # crt is the TLS certificate, e.g. "-----BEGIN CERTIFICATE----- …"
-  crt: ""
-  # key is the TLS key, e.g. "-----BEGIN RSA PRIVATE KEY----- …"
-  key: ""
+  # If certName is empty, TLS will not be used.
+  certName: "pachd-tls-cert"
+  # Set create to nil to not create a certificate (e.g., as when using
+  # one managed by cert-manager).
+  create:
+    # crt is the TLS certificate, e.g. "-----BEGIN CERTIFICATE----- …"
+    crt: ""
+    # key is the TLS key, e.g. "-----BEGIN RSA PRIVATE KEY----- …"
+    key: ""
 
 worker:
   image:

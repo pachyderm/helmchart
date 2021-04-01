@@ -1,15 +1,34 @@
-pachd:
+dash:
   image:
-    tag: 1.12.3
-  lokiLogging: "True"
-  metricsEndpoint: "blah"
-  putFileConcurrencyLimit: 10
+    tag: "0.5.58"
+  url: {{ .Pach.DashURL | quote }}
+
+etcd:
+  resources:
+    requests:
+      cpu: "1"
+      memory: 2G
+  storageSize: "{{ .Pach.StorageSize }}Gi"
+
+loadBalancer:
+  ip: {{ .Pach.ClusterIP | quote }}
+
+pachd:
+  blockCacheBytes: "0G"
+  image:
+    tag: {{ .Pach.PachVersion | quote }}
+  lokiLogging: false
+  metricsEndpoint: {{ .Config.HubServerHostname | quote }}
+  service:
+    type: "NodePort"
   storage:
-    backend: GOOGLE
+    backend: "GOOGLE"
     google:
-      googleBucket: "fake-bucket"
-      googleCred: "fake-creds"
-      serviceAccountName: "blah"
+      googleBucket: {{ .Pach.BucketName | quote}}
+      googleCred: ""
+      serviceAccountName: {{ .Pach.ServiceAccount }}
+    putFileConcurrencyLimit: 10
+
   resources:
     limits:
       cpu: "1"
@@ -18,13 +37,6 @@ pachd:
       cpu: "1"
       memory: 2G
 
-etcd:
-  resources:
-    requests:
-      cpu: "1"
-      memory: 2G
-
-#TODO
-# TLS
-# Ingress
-# LB Service config
+tls:
+  certName: "dash-tls"
+  create: nil

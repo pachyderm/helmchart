@@ -336,9 +336,9 @@ spec:
           name: pach-disk
         - mountPath: /pachyderm-storage-secret
           name: pachyderm-storage-secret
-        {{- if .Values.tls.enabled }}
+        {{- if .Values.tls.certName }}
         - mountPath: /pachd-tls-cert
-          name: pachd-tls-cert
+          name: {{ .Values.tls.certName | quote }}
         {{- end }}
       {{- if .Values.pachd.serviceAccount.name }}
       serviceAccountName: {{ .Values.pachd.serviceAccount.name | quote }}
@@ -353,8 +353,8 @@ spec:
       - name: pachyderm-storage-secret
         secret:
           secretName: pachyderm-storage-secret
-      {{- if .Values.tls.enabled }}
+      {{- if .Values.tls.certName }}
       - name: pachd-tls-cert
         secret:
-          secretName: pachd-tls-cert
+          secretName: {{ .Values.tls.certName | quote }}
       {{- end }}

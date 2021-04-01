@@ -175,7 +175,7 @@
                     "type": "string"
                 },
                 "lokiLogging": {
-                    "type": "string"
+                    "type": "boolean"
                 },
                 "metrics": {
                     "type": "object",
@@ -402,11 +402,19 @@
         "tls": {
             "type": "object",
             "properties": {
-                "crt": {
+                "certName": {
                     "type": "string"
                 },
-                "key": {
-                    "type": "string"
+                "create": {
+                    "type": "object",
+                    "properties": {
+                        "crt": {
+                            "type": "string"
+                        },
+                        "key": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },
