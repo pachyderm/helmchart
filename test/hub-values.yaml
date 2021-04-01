@@ -1,0 +1,42 @@
+dash:
+  image:
+    tag: "0.5.58"
+  url: "http://foo.test/"
+
+etcd:
+  resources:
+    requests:
+      cpu: "1"
+      memory: 2G
+  storageSize: "6Gi"
+
+loadBalancer:
+  ip: "::1"
+
+pachd:
+  blockCacheBytes: "0G"
+  image:
+    tag: "v1.12.6"
+  lokiLogging: false
+  metricsEndpoint: "hub-server.test"
+  service:
+    type: "NodePort"
+  storage:
+    backend: "GOOGLE"
+    google:
+      bucket: "fake-bucket"
+      cred: ""
+      serviceAccountName: test-service-account
+    putFileConcurrencyLimit: 10
+
+  resources:
+    limits:
+      cpu: "1"
+      memory: 2G
+    requests:
+      cpu: "1"
+      memory: 2G
+
+tls:
+  certName: "dash-tls"
+  create: {}
