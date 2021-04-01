@@ -2,14 +2,13 @@ package helmtest
 
 import (
 	"io/ioutil"
-	"log"
 	"os"
 	"testing"
 	"text/template"
 
 	"github.com/Masterminds/sprig"
 	"github.com/gruntwork-io/terratest/modules/helm"
-	networkingv1beta1 "k8s.io/api/networking/v1beta1"
+	"k8s.io/api/extensions/v1beta1"
 )
 
 type pach struct {
@@ -41,10 +40,12 @@ func TestHub(t *testing.T) {
 			ServiceAccount: "test-service-account",
 		}
 		c              = config{"hub-server.test"}
-		f, err         = ioutil.TempFile("", "values.yaml")
 		valuesTemplate = template.Must(template.New("hub-values").Funcs(sprig.TxtFuncMap()).ParseFiles("../examples/hub-values.yaml"))
 		objects        []interface{}
-		checks         = map[string]bool{}
+		checks         = map[string]bool{
+			"ingress": false,
+		}
+		f, err = ioutil.TempFile("", "values.yaml")
 	)
 	if err != nil {
 		t.Fatalf("couldn’t open temporary values file: %v", err)
@@ -65,9 +66,19 @@ func TestHub(t *testing.T) {
 	}
 	for _, object := range objects {
 		switch object := object.(type) {
-		case *networkingv1beta1.Ingress:
-			log.Println(object, checks)
+		case *v1beta1.Ingress:
+			for _, rule := range object.Spec.Rules {
+				if rule.Host == p.DashURL {
+					checks["ingress"] = true
+				}
+			}
 		default:
+		}
+	}
+
+	for check := range checks {
+		if !checks[check] {
+			t.Errorf("%q incomplete", check)
 		}
 	}
 }
