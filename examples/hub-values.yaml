@@ -24,8 +24,8 @@ pachd:
   storage:
     backend: "GOOGLE"
     google:
-      googleBucket: {{ .Pach.BucketName | quote}}
-      googleCred: ""
+      bucket: {{ .Pach.BucketName | quote}}
+      cred: ""
       serviceAccountName: {{ .Pach.ServiceAccount }}
     putFileConcurrencyLimit: 10
 
@@ -39,4 +39,4 @@ pachd:
 
 tls:
   certName: "dash-tls"
-  create: nil
+  create: {}
