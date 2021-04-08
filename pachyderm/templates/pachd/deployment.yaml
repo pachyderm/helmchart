@@ -342,7 +342,7 @@ spec:
           name: pachyderm-storage-secret
         {{- if .Values.tls.certName }}
         - mountPath: /pachd-tls-cert
-          name: {{ .Values.tls.certName | quote }}
+          name: pachd-tls-cert
         {{- end }}
       {{- if .Values.pachd.serviceAccount.name }}
       serviceAccountName: {{ .Values.pachd.serviceAccount.name | quote }}
