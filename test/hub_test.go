@@ -1,6 +1,7 @@
 package helmtest
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -8,6 +9,7 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/gruntwork-io/terratest/modules/helm"
+	v1 "k8s.io/api/apps/v1"
 	"k8s.io/api/extensions/v1beta1"
 )
 
@@ -70,6 +72,21 @@ func TestHub(t *testing.T) {
 			for _, rule := range object.Spec.Rules {
 				if rule.Host == p.DashURL {
 					checks["ingress"] = true
+				}
+			}
+		case *v1.Deployment:
+			for _, cc := range object.Spec.Template.Spec.Containers {
+				if cc.Name != "pachd" {
+					continue
+				}
+				for _, v := range cc.Env {
+					if v.Name != "METRICS_ENDPOINT" {
+						continue
+					}
+					expected := fmt.Sprintf("https://%s/api/v1/metrics", c.HubServerHostname)
+					if v.Value != expected {
+						t.Errorf("metrics endpoint %q ≠ %q", v.Value, expected)
+					}
 				}
 			}
 		default:
