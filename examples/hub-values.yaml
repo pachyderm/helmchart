@@ -1,6 +1,7 @@
 dash:
   image:
     tag: "0.5.58"
+  resources: null
   url: {{ .Pach.DashURL | quote }}
 
 etcd:
@@ -8,6 +9,7 @@ etcd:
     requests:
       cpu: "1"
       memory: 2G
+    limits: null
   storageSize: "{{ .Pach.StorageSize }}Gi"
 
 loadBalancer:
@@ -15,12 +17,13 @@ loadBalancer:
 
 pachd:
   blockCacheBytes: "0G"
+  exposeDockerSocket: true
   image:
     tag: {{ .Pach.PachVersion | quote }}
-  lokiLogging: false
+  lokiLogging: true
   metricsEndpoint: {{ .Config.HubServerHostname | quote }}
   service:
-    type: "NodePort"
+    type: "ClusterIP"
   storage:
     backend: "GOOGLE"
     google:
@@ -28,7 +31,6 @@ pachd:
       cred: ""
       serviceAccountName: {{ .Pach.ServiceAccount }}
     putFileConcurrencyLimit: 10
-
   resources:
     limits:
       cpu: "1"
@@ -39,4 +41,4 @@ pachd:
 
 tls:
   certName: "dash-tls"
-  create: {}
+  create: null

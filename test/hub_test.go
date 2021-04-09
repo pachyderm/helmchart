@@ -9,7 +9,8 @@ import (
 
 	"github.com/Masterminds/sprig"
 	"github.com/gruntwork-io/terratest/modules/helm"
-	v1 "k8s.io/api/apps/v1"
+	appsV1 "k8s.io/api/apps/v1"
+	v1 "k8s.io/api/core/v1"
 	"k8s.io/api/extensions/v1beta1"
 )
 
@@ -45,7 +46,13 @@ func TestHub(t *testing.T) {
 		valuesTemplate = template.Must(template.New("hub-values").Funcs(sprig.TxtFuncMap()).ParseFiles("../examples/hub-values.yaml"))
 		objects        []interface{}
 		checks         = map[string]bool{
-			"ingress": false,
+			"ingress":            false,
+			"metricsEndpoint":    false,
+			"dash limits":        false,
+			"etcd limits":        false,
+			"loki logging":       false,
+			"docker socket":      false,
+			"pachd service type": false,
 		}
 		f, err = ioutil.TempFile("", "values.yaml")
 	)
@@ -74,22 +81,71 @@ func TestHub(t *testing.T) {
 					checks["ingress"] = true
 				}
 			}
-		case *v1.Deployment:
-			for _, cc := range object.Spec.Template.Spec.Containers {
-				if cc.Name != "pachd" {
-					continue
-				}
-				for _, v := range cc.Env {
-					if v.Name != "METRICS_ENDPOINT" {
+		case *appsV1.Deployment:
+			switch object.Name {
+			case "pachd":
+				for _, cc := range object.Spec.Template.Spec.Containers {
+					if cc.Name != "pachd" {
 						continue
 					}
-					expected := fmt.Sprintf("https://%s/api/v1/metrics", c.HubServerHostname)
-					if v.Value != expected {
-						t.Errorf("metrics endpoint %q ≠ %q", v.Value, expected)
+					for _, v := range cc.Env {
+						switch v.Name {
+						case "METRICS_ENDPOINT":
+							expected := fmt.Sprintf("https://%s/api/v1/metrics", c.HubServerHostname)
+							if v.Value != expected {
+								t.Errorf("metrics endpoint %q ≠ %q", v.Value, expected)
+							}
+							checks["metricsEndpoint"] = true
+						case "LOKI_LOGGING":
+							if v.Value != "true" {
+								t.Error("Loki logging should be enabled")
+							}
+							checks["loki logging"] = true
+						case "NO_EXPOSE_DOCKER_SOCKET":
+							if v.Value != "false" {
+								t.Error("Docker socket should be exposed")
+							}
+							checks["docker socket"] = true
+						}
 					}
 				}
+			case "dash":
+				for _, cc := range object.Spec.Template.Spec.Containers {
+					if cc.Name != "dash" {
+						continue
+					}
+					if len(cc.Resources.Limits) > 0 {
+						t.Errorf("dash should have no resource limits")
+					}
+					checks["dash limits"] = true
+				}
 			}
-		default:
+		case *v1.Secret:
+			if object.Name != "dash-tls" {
+				continue
+			}
+			t.Errorf("there should be no dash-tls secret")
+		case *v1.Service:
+			if object.Name != "pachd" {
+				continue
+			}
+			if object.Spec.Type != "ClusterIP" {
+				t.Errorf("pachd service type should be \"ClusterIP\", not %q", object.Spec.Type)
+			}
+			checks["pachd service type"] = true
+		case *appsV1.StatefulSet:
+			if object.Name != "etcd" {
+				continue
+			}
+			for _, cc := range object.Spec.Template.Spec.Containers {
+				if cc.Name != "etcd" {
+					continue
+				}
+				if len(cc.Resources.Limits) > 0 {
+					t.Errorf("etcd should have no resource limits")
+				}
+				checks["etcd limits"] = true
+			}
 		}
 	}
 
