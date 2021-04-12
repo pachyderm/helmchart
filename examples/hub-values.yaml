@@ -2,7 +2,7 @@ dash:
   image:
     tag: "0.5.58"
   resources: null
-  # url is configured per workspace
+  # url is configured per workspace.
   url: "https://dash.test/"
 
 etcd:
