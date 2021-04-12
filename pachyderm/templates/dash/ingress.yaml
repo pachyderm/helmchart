@@ -5,6 +5,9 @@ metadata:
   name: "dash"
   annotations:
     kubernetes.io/ingress.class: "traefik"
+  labels:
+    app: "dash"
+    suite: "pachyderm"
 spec:
   tls:
   - secretName: "dash-tls"
