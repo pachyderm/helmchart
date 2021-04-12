@@ -5,11 +5,15 @@ dash:
   url: {{ .Pach.DashURL | quote }}
 
 etcd:
+  annotations:
+    prometheus.io/port: "2379"
+    prometheus.io/scrape: "true"
   resources:
     requests:
       cpu: "1"
       memory: 2G
     limits: null
+  storageClass: "ssd-storage-class"
   storageSize: "{{ .Pach.StorageSize }}Gi"
 
 loadBalancer:

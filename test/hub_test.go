@@ -46,13 +46,16 @@ func TestHub(t *testing.T) {
 		valuesTemplate = template.Must(template.New("hub-values").Funcs(sprig.TxtFuncMap()).ParseFiles("../examples/hub-values.yaml"))
 		objects        []interface{}
 		checks         = map[string]bool{
-			"ingress":            false,
-			"metricsEndpoint":    false,
-			"dash limits":        false,
-			"etcd limits":        false,
-			"loki logging":       false,
-			"docker socket":      false,
-			"pachd service type": false,
+			"ingress":                false,
+			"metricsEndpoint":        false,
+			"dash limits":            false,
+			"etcd limits":            false,
+			"loki logging":           false,
+			"docker socket":          false,
+			"pachd service type":     false,
+			"etcd prometheus port":   false,
+			"etcd prometheus scrape": false,
+			"etcd storage class":     false,
 		}
 		f, err = ioutil.TempFile("", "values.yaml")
 	)
@@ -126,16 +129,42 @@ func TestHub(t *testing.T) {
 			}
 			t.Errorf("there should be no dash-tls secret")
 		case *v1.Service:
-			if object.Name != "pachd" {
-				continue
+			switch object.Name {
+			case "pachd":
+				if object.Spec.Type != "ClusterIP" {
+					t.Errorf("pachd service type should be \"ClusterIP\", not %q", object.Spec.Type)
+				}
+				checks["pachd service type"] = true
+			case "etcd":
+				for k, v := range object.Annotations {
+					switch k {
+					case "prometheus.io/port":
+						if v != "2379" {
+							t.Errorf("Promethus port set to %q instead of 2379", v)
+						}
+						checks["etcd prometheus port"] = true
+					case "prometheus.io/scrape":
+						if v != "true" {
+							t.Errorf("Prometheus scrape set to %q instead of true", v)
+						}
+						checks["etcd prometheus scrape"] = true
+					}
+				}
 			}
-			if object.Spec.Type != "ClusterIP" {
-				t.Errorf("pachd service type should be \"ClusterIP\", not %q", object.Spec.Type)
-			}
-			checks["pachd service type"] = true
 		case *appsV1.StatefulSet:
 			if object.Name != "etcd" {
 				continue
+			}
+			for _, pvc := range object.Spec.VolumeClaimTemplates {
+				for k, v := range pvc.Annotations {
+					if k != "volume.beta.kubernetes.io/storage-class" {
+						continue
+					}
+					if v != "ssd-storage-class" {
+						t.Errorf("storage class is %q, not ssd-storage-class", v)
+					}
+					checks["etcd storage class"] = true
+				}
 			}
 			for _, cc := range object.Spec.Template.Spec.Containers {
 				if cc.Name != "etcd" {
