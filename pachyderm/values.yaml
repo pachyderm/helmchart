@@ -88,6 +88,7 @@ pachd:
   lokiLogging: false
   metrics:
     enabled: true
+    # endpoint should be the URL of the metrics endpoint.
     endpoint: ""
   # numShards sets the maximum number of pachd nodes allowed in the
   # cluster; increasing this number blindly can result in degraded
@@ -259,7 +260,7 @@ tls:
 worker:
   image:
     repository: "pachyderm/worker"
-    tag: "1.12.4"
+    tag: "1.13.0"
     pullPolicy: "IfNotPresent"
   serviceAccount:
     create: true

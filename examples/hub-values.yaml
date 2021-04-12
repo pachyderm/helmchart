@@ -2,7 +2,7 @@ dash:
   image:
     tag: "0.5.58"
   resources: null
-  # url may be configured per workspace
+  # url is configured per workspace
   url: "https://dash.test/"
 
 etcd:
@@ -15,31 +15,31 @@ etcd:
       memory: 2G
     limits: null
   storageClass: "ssd-storage-class"
-  # storageSize may be configured per workspace
+  # storageSize is configured per workspace.
   storageSize: "3Gi"
 
 loadBalancer:
-  ip: "$PACH_CLUSTER_IP"
+  # ip is configured per workspace.
+  ip: "192.0.2.3"
 
 pachd:
   blockCacheBytes: "0G"
   exposeDockerSocket: true
   image:
-    # tag may be configured per workspace
-    tag: "1.12.5"
+    # tag is configured per workspace.
+    tag: "1.13.0"
   lokiLogging: true
-  # metricsEndpoint may be configured per Hub instance; it is the
-  # hostname of the metrics endpoint
-  metricsEndpoint: "metrics.test"
+  # metricsEndpoint is configured per Hub instance.
+  metricsEndpoint: "https://metrics.test/api/v1/metrics"
   service:
     type: "ClusterIP"
   storage:
     backend: "GOOGLE"
     google:
-      # bucket may be configured per workspace
+      # bucket is configured per workspace.
       bucket: "test-bucket"
       cred: ""
-      # serviceAccountName may be configured per workspace
+      # serviceAccountName is configured per workspace.
       serviceAccountName: "test-service-account"
     putFileConcurrencyLimit: 10
   resources:

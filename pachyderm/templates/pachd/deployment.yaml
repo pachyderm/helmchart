@@ -63,7 +63,7 @@ spec:
           value: {{ .Values.pachd.metrics.enabled | quote }}
         {{- if .Values.pachd.metricsEndpoint}}
         - name: METRICS_ENDPOINT
-          value: "https://{{ .Values.pachd.metricsEndpoint }}/api/v1/metrics"
+          value: "{{ .Values.pachd.metricsEndpoint }}"
         {{- end }}
         - name: LOG_LEVEL
           value: {{ .Values.pachd.logLevel }}
