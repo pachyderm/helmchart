@@ -23,10 +23,8 @@ kubeval-gcp:
 kubeval-gcp-tls:
 	helm template pachyderm -f examples/gcp-values-tls.yaml | kubeval --strict
 
-# kubeval-hub uses a pre-filled values file, since the Hub values are
-# themselves templated.
 kubeval-hub:
-	helm template pachyderm -f test/hub-values.yaml | kubeval --strict
+	helm template pachyderm -f examples/hub-values.yaml | kubeval --strict
 
 kubeval-local:
 	helm template pachyderm -f examples/local-values.yaml | kubeval --strict
