@@ -6,14 +6,15 @@ dash:
   url: "https://dash.test/"
 
 etcd:
-  annotations:
-    prometheus.io/port: "2379"
-    prometheus.io/scrape: "true"
   resources:
     requests:
       cpu: "1"
       memory: 2G
     limits: null
+  service:
+    annotations:
+      prometheus.io/port: "2379"
+      prometheus.io/scrape: "true"
   storageClass: "ssd-storage-class"
   # storageSize is configured per workspace.
   storageSize: "3Gi"

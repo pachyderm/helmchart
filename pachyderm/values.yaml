@@ -59,6 +59,8 @@ etcd:
   storageClass: ""
   storageSize: "100Gi"
   service:
+    # annotations specifies annotations to add to the etcd service.
+    annotations: {}
     type: ClusterIP
 
 imageCredentials: {}

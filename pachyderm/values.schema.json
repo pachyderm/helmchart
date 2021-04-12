@@ -112,6 +112,9 @@
                 "service": {
                     "type": "object",
                     "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
                         "type": {
                             "type": "string"
                         }
