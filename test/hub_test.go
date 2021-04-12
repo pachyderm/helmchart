@@ -1,51 +1,18 @@
 package helmtest
 
 import (
-	"fmt"
-	"io/ioutil"
-	"os"
 	"testing"
-	"text/template"
 
-	"github.com/Masterminds/sprig"
 	"github.com/gruntwork-io/terratest/modules/helm"
 	appsV1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/api/networking/v1beta1"
 )
 
-type pach struct {
-	DashURL        string
-	StorageSize    int
-	ClusterIP      string
-	PachVersion    string
-	BucketName     string
-	ServiceAccount string
-}
-
-type config struct {
-	HubServerHostname string
-}
-
-type templateValues struct {
-	Pach   pach
-	Config config
-}
-
 func TestHub(t *testing.T) {
 	var (
-		p = pach{
-			DashURL:        "http://foo.test/",
-			StorageSize:    6,
-			ClusterIP:      "::1",
-			PachVersion:    "v1.12.6",
-			BucketName:     "fake-bucket",
-			ServiceAccount: "test-service-account",
-		}
-		c              = config{"hub-server.test"}
-		valuesTemplate = template.Must(template.New("hub-values").Funcs(sprig.TxtFuncMap()).ParseFiles("../examples/hub-values.yaml"))
-		objects        []interface{}
-		checks         = map[string]bool{
+		objects []interface{}
+		checks  = map[string]bool{
 			"ingress":                false,
 			"metricsEndpoint":        false,
 			"dash limits":            false,
@@ -57,21 +24,12 @@ func TestHub(t *testing.T) {
 			"etcd prometheus scrape": false,
 			"etcd storage class":     false,
 		}
-		f, err = ioutil.TempFile("", "values.yaml")
+		err error
 	)
-	if err != nil {
-		t.Fatalf("couldn’t open temporary values file: %v", err)
-	}
-	defer os.Remove(f.Name())
-
-	if err = valuesTemplate.Lookup("hub-values.yaml").Execute(f, templateValues{p, c}); err != nil {
-		t.Fatalf("couldn’t execute template: %v", err)
-	}
-	f.Close()
 
 	if objects, err = manifestToObjects(helm.RenderTemplate(t,
 		&helm.Options{
-			ValuesFiles: []string{f.Name()},
+			ValuesFiles: []string{"../examples/hub-values.yaml"},
 		},
 		"../pachyderm/", "pachd", nil)); err != nil {
 		t.Fatalf("could not render templates to objects: %v", err)
@@ -80,7 +38,7 @@ func TestHub(t *testing.T) {
 		switch object := object.(type) {
 		case *v1beta1.Ingress:
 			for _, rule := range object.Spec.Rules {
-				if rule.Host == p.DashURL {
+				if rule.Host == "https://dash.test/" {
 					checks["ingress"] = true
 				}
 			}
@@ -94,7 +52,7 @@ func TestHub(t *testing.T) {
 					for _, v := range cc.Env {
 						switch v.Name {
 						case "METRICS_ENDPOINT":
-							expected := fmt.Sprintf("https://%s/api/v1/metrics", c.HubServerHostname)
+							expected := "https://metrics.test/api/v1/metrics"
 							if v.Value != expected {
 								t.Errorf("metrics endpoint %q ≠ %q", v.Value, expected)
 							}
