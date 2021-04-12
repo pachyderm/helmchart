@@ -274,7 +274,7 @@
                                     "type": "integer"
                                 },
                                 "partSize": {
-                                    "type": "integer"
+                                    "type": "string"
                                 },
                                 "region": {
                                     "type": "string"

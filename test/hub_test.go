@@ -11,7 +11,7 @@ import (
 	"github.com/gruntwork-io/terratest/modules/helm"
 	appsV1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
-	"k8s.io/api/extensions/v1beta1"
+	"k8s.io/api/networking/v1beta1"
 )
 
 type pach struct {
