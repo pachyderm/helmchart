@@ -338,6 +338,8 @@ spec:
         volumeMounts:
         - mountPath: /pach
           name: pach-disk
+        - mountPath: /tmp
+          name: pach-cache
         - mountPath: /pachyderm-storage-secret
           name: pachyderm-storage-secret
         {{- if .Values.tls.certName }}
@@ -354,6 +356,7 @@ spec:
           path: {{ .Values.pachd.storage.local.hostPath }}pachd
           type: DirectoryOrCreate
         {{- end }}
+      - name: pach-cache
       - name: pachyderm-storage-secret
         secret:
           secretName: pachyderm-storage-secret
