@@ -103,6 +103,8 @@ spec:
               fieldPath: metadata.name
         - name: PPS_WORKER_GRPC_PORT
           value: {{ .Values.pachd.ppsWorkerGRPCPort | quote }}
+        - name: STORAGE_DISK_CACHE_SIZE
+          value: {{ .Values.pachd.storageDiskCacheSize | quote }}
         {{- if eq .Values.pachd.storage.backend "GOOGLE" }}
         - name: GOOGLE_BUCKET
           valueFrom:

@@ -192,6 +192,7 @@ pachd:
         address: ""
         role: ""
         token: ""
+      storageDiskCacheSize: 100
     # backend configures the storage backend to use.  It must be one
     # of GOOGLE, AMAZON, MINIO, MICROSOFT or LOCAL.
     backend: ""
