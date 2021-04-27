@@ -1,0 +1,1 @@
+Thanks for contributing to the helm chart! Please have a look at the [style guide](https://github.com/pachyderm/helmchart/blob/master/STYLEGUIDE.md) to ensure consistency.
