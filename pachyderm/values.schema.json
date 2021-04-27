@@ -291,6 +291,9 @@
                                 "secret": {
                                     "type": "string"
                                 },
+                                "storageDiskCacheSize": {
+                                    "type": "integer"
+                                },
                                 "timeout": {
                                     "type": "string"
                                 },
