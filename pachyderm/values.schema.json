@@ -22,6 +22,20 @@
                         }
                     }
                 },
+                "ingress": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "host": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "podLabels": {
                     "type": "object"
                 },
@@ -63,9 +77,6 @@
                             "type": "string"
                         }
                     }
-                },
-                "url": {
-                    "type": "string"
                 }
             }
         },

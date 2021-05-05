@@ -34,6 +34,12 @@ dash:
     #requests:
     #  cpu: "1"
     #  memory: "2G"
+  ingress:
+    enabled: false
+    annotations: {}
+    host: ""
+    #TODO Move TLS
+
   service:
     # labels specifies labels to add to the dash service.
     labels: {}
@@ -50,11 +56,6 @@ dash:
       create: false
       crt: ""
       key: ""
-  # url specifies the URL of the dash ingress, used as the host value
-  # of a rule.
-  url: ""
-
-
 
 etcd:
   affinity: {}
