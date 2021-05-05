@@ -308,6 +308,9 @@ spec:
         {{- end }}
         name: pachd
         ports:
+        - containerPort: 600
+          name: s3gateway-port
+          protocol: TCP
         - containerPort: 650
           name: api-grpc-port
           protocol: TCP
