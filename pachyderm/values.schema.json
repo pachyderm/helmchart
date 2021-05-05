@@ -57,6 +57,31 @@
                         }
                     }
                 },
+                "tls": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "newSecret": {
+                            "type": "object",
+                            "properties": {
+                                "create": {
+                                    "type": "boolean"
+                                },
+                                "crt": {
+                                    "type": "string"
+                                },
+                                "key": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "secretName": {
+                            "type": "string"
+                        }
+                    }
+                },
                 "url": {
                     "type": "string"
                 }
@@ -388,6 +413,31 @@
                             "type": "integer"
                         }
                     }
+                },
+                "tls": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "newSecret": {
+                            "type": "object",
+                            "properties": {
+                                "create": {
+                                    "type": "boolean"
+                                },
+                                "crt": {
+                                    "type": "string"
+                                },
+                                "key": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "secretName": {
+                            "type": "string"
+                        }
+                    }
                 }
             }
         },
@@ -399,25 +449,6 @@
                 },
                 "create": {
                     "type": "boolean"
-                }
-            }
-        },
-        "tls": {
-            "type": "object",
-            "properties": {
-                "certName": {
-                    "type": "string"
-                },
-                "create": {
-                    "type": "object",
-                    "properties": {
-                        "crt": {
-                            "type": "string"
-                        },
-                        "key": {
-                            "type": "string"
-                        }
-                    }
                 }
             }
         },
