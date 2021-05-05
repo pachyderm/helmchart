@@ -7,7 +7,6 @@ import (
 	"errors"
 	"testing"
 
-	appsV1 "k8s.io/api/apps/v1"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
 	rbacv1 "k8s.io/api/rbac/v1"
@@ -419,7 +418,7 @@ func TestServicePorts(t *testing.T) {
 				selector: object.Spec.Selector,
 				ports:    ports,
 			})
-		case *appsV1.Deployment:
+		case *appsv1.Deployment:
 			for i, c := range object.Spec.Template.Spec.Containers {
 				var ports = make(map[string]bool)
 				for _, p := range c.Ports {
@@ -437,7 +436,7 @@ func TestServicePorts(t *testing.T) {
 					ports:  ports,
 				})
 			}
-		case *appsV1.StatefulSet:
+		case *appsv1.StatefulSet:
 			for i, c := range object.Spec.Template.Spec.Containers {
 				var ports = make(map[string]bool)
 				for _, p := range c.Ports {
@@ -473,7 +472,7 @@ func TestServicePorts(t *testing.T) {
 					ports:  ports,
 				})
 			}
-		case *appsV1.DaemonSet:
+		case *appsv1.DaemonSet:
 			for i, c := range object.Spec.Template.Spec.Containers {
 				var ports = make(map[string]bool)
 				for _, p := range c.Ports {
@@ -510,6 +509,58 @@ func TestServicePorts(t *testing.T) {
 				t.Errorf("nothing satisfies service %s/%s", s.name, p)
 			}
 		}
+	}
+}
+
+func TestGOMAXPROCS(t *testing.T) {
+	var (
+		hostPath     = "/this/is/a/host/path/"
+		objects, err = manifestToObjects(helm.RenderTemplate(t,
+			&helm.Options{
+				SetStrValues: map[string]string{
+					"pachd.storage.backend":        "LOCAL",
+					"pachd.storage.local.hostPath": hostPath,
+				}},
+			"../pachyderm/", "release-name", nil))
+		sawGoMaxProcs bool
+	)
+	if err != nil {
+		t.Fatalf("could not render templates to objects: %v", err)
+	}
+	for _, object := range objects {
+		switch object := object.(type) {
+		case *appsv1.Deployment:
+			for _, e := range object.Spec.Template.Spec.Containers[0].Env {
+				if e.Name == "GOMAXPROCS" {
+					t.Error("GOMAXPROCS exists when it should not")
+				}
+			}
+		}
+	}
+
+	objects, err = manifestToObjects(helm.RenderTemplate(t,
+		&helm.Options{
+			ValuesFiles: []string{"../examples/hub-values.yaml"},
+		},
+		"../pachyderm/", "release-name", nil))
+	if err != nil {
+		t.Fatalf("could not render templates to objects: %v", err)
+	}
+	for _, object := range objects {
+		switch object := object.(type) {
+		case *appsv1.Deployment:
+			for _, e := range object.Spec.Template.Spec.Containers[0].Env {
+				if e.Name == "GOMAXPROCS" {
+					if e.Value != "3" {
+						t.Error("GOMAXPROCS ≠ 3")
+					}
+					sawGoMaxProcs = true
+				}
+			}
+		}
+	}
+	if !sawGoMaxProcs {
+		t.Error("GOMAXPROCS does not exists when it should")
 	}
 }
 
