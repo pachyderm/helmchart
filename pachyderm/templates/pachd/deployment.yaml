@@ -360,5 +360,5 @@ spec:
       {{- if .Values.pachd.tls.enabled }}
       - name: pachd-tls-cert
         secret:
-          secretName: {{ .Values.pachd.tls.secretName | quote }}
+          secretName: {{ required "If pachd.tls.enabled, you must set pachd.tls.secretName" .Values.pachd.tls.secretName | quote }}
       {{- end }}

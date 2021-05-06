@@ -11,7 +11,7 @@ metadata:
 spec:
   {{- if .Values.dash.tls.enabled }}
   tls:
-  - secretName: {{ required "if dash.tls.enabled you must specify dash.tls.secretName" .Values.dash.tls.secretName }}
+    - secretName: {{ required "if dash.tls.enabled you must specify dash.tls.secretName" .Values.dash.tls.secretName }}
   {{- end }}
   rules:
     - host: {{ .Values.dash.url | quote }}
