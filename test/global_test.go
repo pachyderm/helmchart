@@ -114,7 +114,7 @@ func TestEnsureVolumePresent(t *testing.T) {
 	want := v1.Volume{
 		VolumeSource: v1.VolumeSource{
 			Secret: &v1.SecretVolumeSource{
-				SecretName: "A Fine Secrets",
+				SecretName: "A Fine Secret",
 			},
 		},
 		Name: "pachd-tls-cert",
