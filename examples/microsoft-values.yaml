@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: Pachyderm, Inc. <info@pachyderm.com>
 # SPDX-License-Identifier: Apache-2.0
-
+etcd:
+  storageClass: "default"
 pachd:
   storage:
     backend: "MICROSOFT"
