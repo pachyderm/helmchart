@@ -37,7 +37,7 @@ dash:
     oauthRedirectURI: ""
     oauthClientID: ""
     oauthClientSecret: ""
-    graphqlPort: ""
+    graphqlPort: 8080
     oauthPachdClientID: ""
     pachdAddress: ""
   service:
