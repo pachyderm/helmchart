@@ -94,5 +94,13 @@ spec:
       - ReadWriteOnce
       resources:
         requests:
-          storage: {{ .Values.etcd.storageSize }}
+        storage: {{ if and (eq .Values.etcd.storageSize  "100Gi") (eq .Values.pachd.storage.backend "MICROSOFT") -}}
+            256Gi
+            {{- /*
+            Azure Disk IOPs are by size. 256Gi provisions 1,100 IOPs
+            */ -}}
+            {{- else -}}
+            {{ .Values.etcd.storageSize }}
+            {{- end }}
+          
   {{- end }}
