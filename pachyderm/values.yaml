@@ -19,7 +19,7 @@ dash:
     # repository is the image repo to pull from; together with tag it
     # replicates the --dash-image & --registry arguments to pachctl
     # deploy.
-    repository: "pachyderm/dash"
+    repository: "pachyderm/dash" #TODO update to new repo when new dash ships
     pullPolicy: "IfNotPresent"
     # tag is the image repo to pull from; together with repository it
     # replicates the --dash-image argument to pachctl deploy.
@@ -32,6 +32,14 @@ dash:
     #requests:
     #  cpu: "1"
     #  memory: "2G"
+  config:
+    issuerURI: ""
+    oauthRedirectURI: ""
+    oauthClientID: ""
+    oauthClientSecret: ""
+    graphqlPort: ""
+    oauthPachdClientID: ""
+    pachdAddress: ""
   service:
     # type specifies the Kubernetes type of the dash service.
     type: ClusterIP
