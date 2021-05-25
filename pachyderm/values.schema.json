@@ -22,12 +22,18 @@
                         }
                     }
                 },
+                "podLabels": {
+                    "type": "object"
+                },
                 "resources": {
                     "type": "object"
                 },
                 "service": {
                     "type": "object",
                     "properties": {
+                        "labels": {
+                            "type": "object"
+                        },
                         "type": {
                             "type": "string"
                         }
@@ -83,6 +89,9 @@
                         }
                     }
                 },
+                "podLabels": {
+                    "type": "object"
+                },
                 "resources": {
                     "type": "object"
                 },
@@ -90,6 +99,9 @@
                     "type": "object",
                     "properties": {
                         "annotations": {
+                            "type": "object"
+                        },
+                        "labels": {
                             "type": "object"
                         },
                         "type": {
@@ -174,6 +186,9 @@
                 "numShards": {
                     "type": "integer"
                 },
+                "podLabels": {
+                    "type": "object"
+                },
                 "ppsWorkerGRPCPort": {
                     "type": "integer"
                 },
@@ -186,6 +201,9 @@
                 "service": {
                     "type": "object",
                     "properties": {
+                        "labels": {
+                            "type": "object"
+                        },
                         "type": {
                             "type": "string"
                         }
