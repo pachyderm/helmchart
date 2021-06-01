@@ -8,8 +8,7 @@ dash:
     enabled: true
     annotations:
       kubernetes.io/ingress.class: "traefik"
-    host: "https://dash.test/"
-
+    host: "dash.test"
 
 etcd:
   resources:
@@ -59,3 +58,4 @@ pachd:
   tls:
     enabled: true
     secretName: "dash-tls"
+
