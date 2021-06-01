@@ -19,7 +19,12 @@ spec:
     {{- if eq .Values.dash.service.type "NodePort" }}
     nodePort: 30080
     {{- end }}
-    port: 8080
+    port: 3000
+  - name: dash-graphql
+    {{- if eq .Values.dash.service.type "NodePort" }}
+    nodePort: 30081
+    {{- end }}
+    port: 4000
   selector:
     app: dash
     suite: pachyderm

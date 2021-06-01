@@ -19,11 +19,11 @@ dash:
     # repository is the image repo to pull from; together with tag it
     # replicates the --dash-image & --registry arguments to pachctl
     # deploy.
-    repository: "pachyderm/dash" #TODO update to new repo when new dash ships
+    repository: "pachyderm/haberdashery" #TODO update to new repo when new dash ships
     pullPolicy: "IfNotPresent"
     # tag is the image repo to pull from; together with repository it
     # replicates the --dash-image argument to pachctl deploy.
-    tag: "0.5.58"
+    tag: "933f0f8b8d33944dc94b35caef9b0330e16dd0d0"
   # podLabels specifies labels to add to the dash pod.
   podLabels: {}
   # resources specifies the resource request and limits.
@@ -35,18 +35,18 @@ dash:
     #  cpu: "1"
     #  memory: "2G"
   config:
-    issuerURI: ""
-    oauthRedirectURI: ""
-    oauthClientID: ""
-    oauthClientSecret: ""
-    graphqlPort: 8080
-    oauthPachdClientID: ""
-    pachdAddress: ""
+    issuerURI: "http://pachd.default.svc.cluster.local:658/"
+    oauthRedirectURI: "http://dash.default.svc.cluster.local:4000/oauth/callback/?inline=true"
+    oauthClientID: "dash"
+    oauthClientSecret: "abc"
+    graphqlPort: 4000
+    oauthPachdClientID: "pachd"
+    pachdAddress: "pachd-peer.default.svc.cluster.local:30653"
   service:
     # labels specifies labels to add to the dash service.
     labels: {}
     # type specifies the Kubernetes type of the dash service.
-    type: ClusterIP
+    type: NodePort
   # There are three options for TLS:
   # 1. Disabled
   # 2. Enabled, existingSecret, specify secret name
@@ -122,7 +122,7 @@ pachd:
     repository: "pachyderm/pachd"
     pullPolicy: "IfNotPresent"
     # tag defaults to the chart’s specified appVersion.
-    tag: ""
+    tag: "2.0.0-alpha.17"
   logLevel: "info"
   # lokiLogging enables Loki logging if set.
   lokiLogging: false
@@ -154,7 +154,7 @@ pachd:
     # labels specifies labels to add to the pachd service.
     labels: {}
     # type specifies the Kubernetes type of the pachd service.
-    type: "ClusterIP"
+    type: "NodePort"
     #apiGrpcPort:
     #  expose: true
     #  port: 30650
