@@ -61,7 +61,7 @@ disabled by setting the env variable `METRICS` to `false` in the pachd
 container.
 
 ## License Information
-The Helm Chart uses the [Apache License](LICENSE). 
+The Helm Chart uses the [Apache License](LICENSE/Apache-2.0.txt). 
 
 <!-- SPDX-FileCopyrightText: Pachyderm, Inc. <info@pachyderm.com>
 SPDX-License-Identifier: Apache-2.0 -->
