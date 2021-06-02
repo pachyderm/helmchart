@@ -24,7 +24,8 @@ for a way to "productionize" them, Pachyderm can make this easy for you.
 Running on Minikube: (or similar)
 
 ```
-helm install --set pachd.storage.backend=LOCAL
+$ helm repo add pachyderm https://pachyderm.github.io/helmchart
+$ helm install --set pachd.storage.backend=LOCAL pachd pachyderm/pachyderm
 ```
 
 If you'd like to see some examples and learn about core use cases for Pachyderm:
@@ -60,12 +61,7 @@ disabled by setting the env variable `METRICS` to `false` in the pachd
 container.
 
 ## License Information
-Pachyderm has moved some components of Pachyderm Platform to a [source-available limited license](LICENSE). 
-
-We remain committed to the culture of open source, developing our product transparently and collaboratively with our community, and giving our community and customers source code access and the ability to study and change the software to suit their needs.
-
-Under the Pachyderm Community License, you can access the source code and modify or redistribute it; there is only one thing you cannot do, and that is use it to make a competing offering. 
-
+The Helm Chart uses the [Apache License](LICENSE). 
 
 <!-- SPDX-FileCopyrightText: Pachyderm, Inc. <info@pachyderm.com>
 SPDX-License-Identifier: Apache-2.0 -->
