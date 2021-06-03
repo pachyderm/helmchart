@@ -21,7 +21,6 @@ func TestMicrosoft(t *testing.T) {
 			&helm.Options{
 				SetStrValues: map[string]string{
 					"pachd.storage.backend":             "MICROSOFT",
-					"etcd.storage.backend":              "MICROSOFT",
 					"pachd.storage.microsoft.container": container,
 					"pachd.storage.microsoft.id":        id,
 					"pachd.storage.microsoft.secret":    secret,
