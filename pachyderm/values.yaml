@@ -36,7 +36,7 @@ dash:
     #  memory: "2G"
   config:
     issuerURI: "http://pachd.default.svc.cluster.local:658/"
-    oauthRedirectURI: "http://dash.default.svc.cluster.local:4000/oauth/callback/?inline=true"
+    oauthRedirectURI: "http://localhost:4000/oauth/callback/?inline=true"
     oauthClientID: "dash"
     oauthClientSecret: "abc"
     graphqlPort: 4000
@@ -46,7 +46,7 @@ dash:
     # labels specifies labels to add to the dash service.
     labels: {}
     # type specifies the Kubernetes type of the dash service.
-    type: NodePort
+    type: ClusterIP
   # There are three options for TLS:
   # 1. Disabled
   # 2. Enabled, existingSecret, specify secret name
@@ -154,7 +154,7 @@ pachd:
     # labels specifies labels to add to the pachd service.
     labels: {}
     # type specifies the Kubernetes type of the pachd service.
-    type: "NodePort"
+    type: "ClusterIP"
     #apiGrpcPort:
     #  expose: true
     #  port: 30650
