@@ -52,7 +52,7 @@ spec:
         - name: OAUTH_PACHD_CLIENT_ID
           value: {{ .Values.dash.config.oauthPachdClientID | quote }}
         - name: PACHD_ADDRESS
-          value: {{ .Values.dash.config.pachdAddress | quote }} #TODO Set dynamically?
+          value: {{ .Values.dash.config.pachdAddress | quote }}
         {{- if .Values.dash.resources }}
         resources: {{ toYaml .Values.dash.resources | nindent 10 }}
         {{- end }}

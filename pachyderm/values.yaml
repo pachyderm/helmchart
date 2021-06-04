@@ -19,11 +19,11 @@ dash:
     # repository is the image repo to pull from; together with tag it
     # replicates the --dash-image & --registry arguments to pachctl
     # deploy.
-    repository: "pachyderm/haberdashery" #TODO update to new repo when new dash ships
+    repository: "pachyderm/haberdashery"
     pullPolicy: "IfNotPresent"
     # tag is the image repo to pull from; together with repository it
     # replicates the --dash-image argument to pachctl deploy.
-    tag: "933f0f8b8d33944dc94b35caef9b0330e16dd0d0"
+    tag: "08c04439fda7cfd17c3ac657f247cd6b01e5c712"
   # podLabels specifies labels to add to the dash pod.
   podLabels: {}
   # resources specifies the resource request and limits.
