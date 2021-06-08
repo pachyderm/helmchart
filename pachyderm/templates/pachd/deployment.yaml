@@ -2,7 +2,7 @@
 SPDX-FileCopyrightText: Pachyderm, Inc. <info@pachyderm.com>
 SPDX-License-Identifier: Apache-2.0
 */ -}}
-{{- $hostPath := default .Values.pachd.hostPath (printf "/var/pachyderm-%s/pachd" (randAlphaNum 5)) -}}
+{{- $hostPath := default .Values.pachd.storage.local.hostPath (printf "/var/pachyderm-%s/pachd" (randAlphaNum 5)) -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
