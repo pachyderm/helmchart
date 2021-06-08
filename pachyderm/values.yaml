@@ -23,7 +23,7 @@ dash:
     pullPolicy: "IfNotPresent"
     # tag is the image repo to pull from; together with repository it
     # replicates the --dash-image argument to pachctl deploy.
-    tag: "08c04439fda7cfd17c3ac657f247cd6b01e5c712"
+    tag: "83baed0930c3d990f33c06094996a0692713439f"
   # podLabels specifies labels to add to the dash pod.
   podLabels: {}
   # resources specifies the resource request and limits.
@@ -35,7 +35,7 @@ dash:
     #  cpu: "1"
     #  memory: "2G"
   config:
-    issuerURI: "http://pachd.default.svc.cluster.local:658/"
+    issuerURI: "http://localhost:30658/"
     oauthRedirectURI: "http://localhost:4000/oauth/callback/?inline=true"
     oauthClientID: "dash"
     oauthClientSecret: "abc"
