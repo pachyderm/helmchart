@@ -82,20 +82,13 @@ spec:
   {{- if not (eq .Values.pachd.storage.backend "LOCAL") }}
   volumeClaimTemplates:
   - metadata:
-  {{- if or (eq .Values.pachd.storage.backend "AMAZON") (eq .Values.pachd.storage.backend "GOOGLE") (eq .Values.pachd.storage.backend "MICROSOFT")}}
-      annotations:
-        volume.beta.kubernetes.io/storage-class: {{ if .Values.etcd.storageClass -}}
-        {{ .Values.etcd.storageClass }}
-        {{- else -}}
-        etcd-storage-class
-        {{- end }}
-  {{- end }}
       labels:
         app: etcd
         suite: pachyderm
       name: etcd-storage
       namespace: {{ .Release.Namespace }}
     spec:
+      storageClassName: {{ .Values.etcd.storageClass | default "etcd-storage-class" }}
       accessModes:
       - ReadWriteOnce
       resources:
@@ -103,11 +96,10 @@ spec:
           storage: {{ if not .Values.etcd.storageSize  -}}
               {{ if eq .Values.pachd.storage.backend "MICROSOFT" -}}
               256Gi
-              {{- else -}}
+              {{- else if .Values.pachd.storage.backend "GOOGLE" -}}
               100Gi
               {{- end }}
               {{ else -}}
               {{ .Values.etcd.storageSize }}
               {{- end }}
-          
   {{- end }}
