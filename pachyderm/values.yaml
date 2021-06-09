@@ -41,7 +41,7 @@ dash:
     oauthClientSecret: ""
     graphqlPort: 4000
     oauthPachdClientID: ""
-    pachdAddress: "pachd-peer.default.svc.cluster.local:3065"
+    pachdAddress: "pachd-peer.default.svc.cluster.local:30653"
   service:
     # labels specifies labels to add to the dash service.
     labels: {}
