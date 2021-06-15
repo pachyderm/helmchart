@@ -2,6 +2,7 @@
 SPDX-FileCopyrightText: Pachyderm, Inc. <info@pachyderm.com>
 SPDX-License-Identifier: Apache-2.0
 */ -}}
+{{- if .Values.postgresql.external }}
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
@@ -66,3 +67,4 @@ spec:
       resources:
         requests:
           storage: 10Gi
+{{ end -}}
