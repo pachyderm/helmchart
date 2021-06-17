@@ -24,7 +24,7 @@ spec:
     targetPort: api-http-port
   - name: s3-gateway-port
     port: 30600
-    targetPort: s3-gateway-port
+    targetPort: s3gateway-port
   selector:
     app: pachd
   type: LoadBalancer
