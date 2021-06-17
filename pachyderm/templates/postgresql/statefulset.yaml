@@ -45,7 +45,9 @@ spec:
           name: postgres-storage
         - mountPath: /docker-entrypoint-initdb.d
           name: postgres-init
-      imagePullSecrets: {{ .Values.imagePullSecret | quote }}
+      {{- if .Values.imagePullSecret }}
+      imagePullSecret: {{ .Values.imagePullSecret | quote }}
+      {{- end }}
       volumes:
       - configMap:
           name: postgres-init-cm
