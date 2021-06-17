@@ -1,9 +1,10 @@
 # SPDX-FileCopyrightText: Pachyderm, Inc. <info@pachyderm.com>
 # SPDX-License-Identifier: Apache-2.0
 
+deployTarget: MINIO
+
 pachd:
   storage:
-    backend: "MINIO"
     minio:
       bucket: "foo"
       endpoint: "https://bar.test/"

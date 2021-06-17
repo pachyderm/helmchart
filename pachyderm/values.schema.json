@@ -95,6 +95,9 @@
                 }
             }
         },
+        "deployTarget": {
+            "type": "string"
+        },
         "etcd": {
             "type": "object",
             "properties": {
@@ -298,9 +301,6 @@
                                     "type": "boolean"
                                 }
                             }
-                        },
-                        "backend": {
-                            "type": "string"
                         },
                         "google": {
                             "type": "object",

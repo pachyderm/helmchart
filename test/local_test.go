@@ -18,7 +18,7 @@ func TestLocal(t *testing.T) {
 		objects, err = manifestToObjects(helm.RenderTemplate(t,
 			&helm.Options{
 				SetStrValues: map[string]string{
-					"pachd.storage.backend":        "LOCAL",
+					"pachd.deployTarget":           "LOCAL",
 					"pachd.storage.local.hostPath": hostPath,
 				}},
 			"../pachyderm/", "release-name", nil))
