@@ -145,9 +145,7 @@ func TestPachdImageTagDeploymentEnv(t *testing.T) {
 	if deploymentContainers[0].Image != expectedPachdContainerImage {
 		t.Fatalf("Rendered Pachd Image (%s) is not expected (%s)", deploymentContainers[0].Image, expectedPachdContainerImage)
 	}
-	if version != expectedTag {
-		t.Fatalf("Rendered EnvVar (%s) value (%s) is not expected (%s)", workerImageEnvVar, version, expectedTag)
-	}
+
 	if workerImage != expectedWorkerContainerImage {
 		t.Fatalf("Rendered EnvVar (%s) value (%s) is not expected (%s)", workerImageEnvVar, workerImage, expectedWorkerContainerImage)
 	}
