@@ -183,6 +183,8 @@ pachd:
     user: ""
     password: ""
   requireCriticalServersOnly: false
+  # Run pachyderm without root
+  runAsRoot: false
   service:
     # labels specifies labels to add to the pachd service.
     labels: {}

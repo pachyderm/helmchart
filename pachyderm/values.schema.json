@@ -308,6 +308,9 @@
                 "resources": {
                     "type": "object"
                 },
+                "runAsRoot": {
+                    "type": "boolean"
+                },
                 "service": {
                     "type": "object",
                     "properties": {
