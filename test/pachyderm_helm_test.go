@@ -367,6 +367,15 @@ func TestMinioStorageSecrets(t *testing.T) {
 	//fmt.Printf("%+v\n", blah)
 }
 
+func GetContainerByName(containers []v1.Container, name string) (error, *v1.Container) {
+	for _, c := range containers {
+		if c.Name == name {
+			return nil, &c
+		}
+	}
+	return errors.New("Not found"), nil
+}
+
 func GetEnvVarByName(envVars []v1.EnvVar, name string) (error, string) {
 	for _, v := range envVars {
 		if v.Name == name {

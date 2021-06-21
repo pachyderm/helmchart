@@ -1,7 +1,6 @@
 package helmtest
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -56,7 +55,6 @@ func TestPachdPodLabels(t *testing.T) {
 	var pachd appsV1.Deployment
 
 	helm.UnmarshalK8SYaml(t, output, &pachd)
-	fmt.Printf("%+v\n", pachd.Spec.Template.Labels)
 
 	if !reflect.DeepEqual(expectedLabels, pachd.Spec.Template.Labels) {
 		t.Fatalf("Wanted Pachd Pod Labels %+v, Got, %+v", expectedLabels, pachd.Spec.Template.Labels)
