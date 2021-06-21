@@ -4,7 +4,7 @@
 package helmtest
 
 import (
-	"strconv"
+	"fmt"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/helm"
@@ -12,24 +12,53 @@ import (
 )
 
 func TestAWS(t *testing.T) {
-	objects, err := manifestToObjects(helm.RenderTemplate(t,
-		&helm.Options{
-			SetStrValues: map[string]string{
-				"pachd.storage.backend": "AMAZON",
-			},
-		}, "../pachyderm", "release-name", nil))
-	if err != nil {
-		t.Error(err)
+
+	type envVarMap struct {
+		helmKey string
+		envVar  string
+		value   string
 	}
-	for _, obj := range objects {
-		switch obj := obj.(type) {
-		case *v1.Secret:
-			if obj.Name != "pachyderm-storage-secret" {
-				continue
+
+	testCases := []envVarMap{
+		{
+			helmKey: "pachd.storage.amazon.bucket",
+			envVar:  "AMAZON_BUCKET",
+			value:   "my-bucket",
+		},
+		{
+			helmKey: "pachd.storage.amazon.cloudFrontDistribution",
+			envVar:  "AMAZON_DISTRIBUTION",
+			value:   "test-cf",
+		},
+		{
+			helmKey: "pachd.storage.amazon.id",
+			envVar:  "AMAZON_ID",
+			value:   "testazid123",
+		},
+		//TODO Fill in rest of values
+	}
+
+	helmValues := map[string]string{
+		"pachd.storage.backend": "AMAZON",
+	}
+	for _, tc := range testCases {
+		helmValues[tc.helmKey] = tc.value
+	}
+
+	render := helm.RenderTemplate(t,
+		&helm.Options{
+			SetStrValues: helmValues,
+		}, "../pachyderm", "release-name", []string{"templates/pachd/storage-secret.yaml"})
+
+	var secret *v1.Secret
+
+	helm.UnmarshalK8SYaml(t, render, &secret)
+
+	for _, tc := range testCases {
+		t.Run(fmt.Sprintf("%s equals %s", tc.envVar, tc.value), func(t *testing.T) {
+			if got := string(secret.Data[tc.envVar]); got != tc.value {
+				t.Errorf("got %s; want %s", got, tc.value)
 			}
-			if _, err := strconv.Atoi(string(obj.Data["part-size"])); err != nil {
-				t.Error(err)
-			}
-		}
+		})
 	}
 }
