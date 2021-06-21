@@ -399,8 +399,14 @@
         "postgresql": {
             "type": "object",
             "properties": {
-                "resources": {
-                    "type": "object"
+                "enabled": {
+                    "type": "boolean"
+                },
+                "host": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
                 },
                 "service": {
                     "type": "object",
