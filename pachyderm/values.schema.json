@@ -437,6 +437,9 @@
                 "password": {
                     "type": "string"
                 },
+                "port": {
+                    "type": "string"
+                },
                 "service": {
                     "type": "object",
                     "properties": {
@@ -444,6 +447,12 @@
                             "type": "string"
                         }
                     }
+                },
+                "ssl": {
+                    "type": "string"
+                },
+                "user": {
+                    "type": "string"
                 }
             }
         },
