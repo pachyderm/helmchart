@@ -408,6 +408,9 @@
                 "password": {
                     "type": "string"
                 },
+                "port": {
+                    "type": "string"
+                },
                 "service": {
                     "type": "object",
                     "properties": {
