@@ -4,7 +4,6 @@
 package helmtest
 
 import (
-	"errors"
 	"testing"
 
 	appsv1 "k8s.io/api/apps/v1"
@@ -16,6 +15,9 @@ import (
 	"github.com/gruntwork-io/terratest/modules/k8s"
 	"github.com/instrumenta/kubeval/kubeval"
 )
+
+// NB: This file is our oldest tests and probably shouldn't be used
+// as an example for new tests
 
 func TestDashImageAndConfigTag(t *testing.T) {
 
@@ -269,45 +271,6 @@ func TestSetNamespaceClusterRoleBinding(t *testing.T) {
 
 }
 
-func TestMinioStorageSecrets(t *testing.T) {
-
-	helmChartPath := "../pachyderm"
-	minioBucket := "blah"
-	options := &helm.Options{
-		SetValues: map[string]string{
-			"pachd.storage.backend":      "MINIO",
-			"pachd.storage.minio.bucket": minioBucket},
-	}
-
-	output := helm.RenderTemplate(t, options, helmChartPath, "secret", []string{"templates/pachd/storage-secret.yaml"})
-
-	var secret v1.Secret
-	helm.UnmarshalK8SYaml(t, output, &secret)
-
-	// TODO Check result
-
-	//fmt.Printf("%+v\n", blah)
-}
-
-func GetEnvVarByName(envVars []v1.EnvVar, name string) (error, string) {
-	for _, v := range envVars {
-		if v.Name == name {
-			return nil, v.Value
-		}
-	}
-	return errors.New("Not found"), ""
-}
-
-// GetContainerByName returns container or nil
-func GetContainerByName(name string, containers []v1.Container) *v1.Container {
-	for _, c := range containers {
-		if c.Name == name {
-			return &c
-		}
-	}
-	return nil
-}
-
 type service struct {
 	name     string
 	selector map[string]string
@@ -508,18 +471,3 @@ func TestGOMAXPROCS(t *testing.T) {
 		t.Error("GOMAXPROCS does not exists when it should")
 	}
 }
-
-//Tests todo
-/*
-Overall
-- Check existence of values / non existence of values / overrides / defaults
-
-- Namespace correctly set
-- Service correctly wired through
-- Secrets correctly wired through
-
-TODO
-- Storage Class Tests
-
-
-*/

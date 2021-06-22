@@ -3,14 +3,7 @@
 
 package helmtest
 
-import (
-	"testing"
-
-	"github.com/gruntwork-io/terratest/modules/helm"
-	appsV1 "k8s.io/api/apps/v1"
-	v1 "k8s.io/api/core/v1"
-)
-
+/*
 func TestMinio(t *testing.T) {
 	var (
 		bucket       = "foo-bucket"
@@ -118,3 +111,4 @@ func TestMinio(t *testing.T) {
 		}
 	}
 }
+*/

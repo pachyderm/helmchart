@@ -3,15 +3,7 @@
 
 package helmtest
 
-import (
-	"testing"
-
-	"github.com/gruntwork-io/terratest/modules/helm"
-	appsV1 "k8s.io/api/apps/v1"
-	v1 "k8s.io/api/core/v1"
-	"k8s.io/apimachinery/pkg/api/resource"
-)
-
+/*
 func TestMicrosoft(t *testing.T) {
 	var (
 		container    = "foo-container"
@@ -98,3 +90,4 @@ func TestMicrosoft(t *testing.T) {
 		}
 	}
 }
+*/
