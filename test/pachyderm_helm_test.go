@@ -269,84 +269,6 @@ func TestSetNamespaceClusterRoleBinding(t *testing.T) {
 
 }
 
-func TestAmazonStorageSecretsAmazonRegion(t *testing.T) {
-	/*
-		amazonRegion:
-		amazonBucket:
-		amazonID:
-		amazonSecret:
-		amazonToken:
-		amazonDistribution:
-		customEndpoint:
-		retries:
-		timeout:
-		uploadACL:
-		reverse:
-		partSize:
-		maxUploadParts:
-		disableSSL:
-		noVerifySSL:
-		#TODO iamRole - Check all places IAM role rendered
-	*/
-	helmChartPath := "../pachyderm"
-	amazonRegion := "blah"
-	options := &helm.Options{
-		SetValues: map[string]string{
-			"pachd.storage.backend":             "AMAZON",
-			"pachd.storage.amazon.amazonRegion": amazonRegion},
-	}
-
-	output := helm.RenderTemplate(t, options, helmChartPath, "secret", []string{"templates/pachd/storage-secret.yaml"})
-
-	var secret v1.Secret
-	helm.UnmarshalK8SYaml(t, output, &secret)
-
-	//TODO Check Result
-
-	//fmt.Printf("%+v\n", blah)
-	//fmt.Print(secret.Data["amazon-region"])
-}
-
-func TestMicrosoftStorageSecrets(t *testing.T) {
-
-	helmChartPath := "../pachyderm"
-	microsoftContainer := "blah"
-	options := &helm.Options{
-		SetValues: map[string]string{
-			"pachd.storage.backend":             "MICROSOFT",
-			"pachd.storage.microsoft.container": microsoftContainer},
-	}
-
-	output := helm.RenderTemplate(t, options, helmChartPath, "secret", []string{"templates/pachd/storage-secret.yaml"})
-
-	var secret v1.Secret
-	helm.UnmarshalK8SYaml(t, output, &secret)
-
-	//TODO Check Result
-
-	//fmt.Printf("%+v\n", blah)
-}
-
-func TestGoogleStorageSecrets(t *testing.T) {
-
-	helmChartPath := "../pachyderm"
-	googleBucket := "blah"
-	options := &helm.Options{
-		SetValues: map[string]string{
-			"pachd.storage.backend":       "GOOGLE",
-			"pachd.storage.google.bucket": googleBucket},
-	}
-
-	output := helm.RenderTemplate(t, options, helmChartPath, "secret", []string{"templates/pachd/storage-secret.yaml"})
-
-	var secret v1.Secret
-	helm.UnmarshalK8SYaml(t, output, &secret)
-
-	//TODO Check result
-
-	//fmt.Printf("%+v\n", blah)
-}
-
 func TestMinioStorageSecrets(t *testing.T) {
 
 	helmChartPath := "../pachyderm"
@@ -374,6 +296,16 @@ func GetEnvVarByName(envVars []v1.EnvVar, name string) (error, string) {
 		}
 	}
 	return errors.New("Not found"), ""
+}
+
+// GetContainerByName returns container or nil
+func GetContainerByName(name string, containers []v1.Container) *v1.Container {
+	for _, c := range containers {
+		if c.Name == name {
+			return &c
+		}
+	}
+	return nil
 }
 
 type service struct {

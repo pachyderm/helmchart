@@ -4,6 +4,7 @@
 package helmtest
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/helm"
@@ -12,57 +13,24 @@ import (
 	storageV1 "k8s.io/api/storage/v1"
 )
 
-func TestGoogleServiceAccount(t *testing.T) {
+//Service Account Test
+//manifestServiceAccount := serviceAccount.Annotations["iam.gke.io/gcp-service-account"]
+//if manifestServiceAccount != expectedServiceAccount {
+//	t.Fatalf("Google service account expected (%s) actual (%s) ", expectedServiceAccount, manifestServiceAccount)
+//}
+
+//Worker Service Account Test (Same as Service Account test)
+
+//Storage Secret Test
+
+//Pachd Deployment - Storage backend
+
+//Etcd / Pachd Storage Class - Should test  storage class name elsewhere
+//Service Account name - Should test  service account name elsewhere
+
+func TestGoogle(t *testing.T) {
 	helmChartPath := "../pachyderm"
 
-	expectedServiceAccount := "my-fine-sa"
-	options := &helm.Options{
-		SetValues: map[string]string{
-			"pachd.image.tag":                         "1.12.3",
-			"pachd.storage.backend":                   "GOOGLE",
-			"pachd.storage.google.bucket":             "fake-bucket",
-			"pachd.storage.google.serviceAccountName": expectedServiceAccount,
-		},
-	}
-
-	output := helm.RenderTemplate(t, options, helmChartPath, "blah", []string{"templates/pachd/rbac/serviceaccount.yaml"})
-
-	var serviceAccount v1.ServiceAccount
-
-	helm.UnmarshalK8SYaml(t, output, &serviceAccount)
-
-	manifestServiceAccount := serviceAccount.Annotations["iam.gke.io/gcp-service-account"]
-	if manifestServiceAccount != expectedServiceAccount {
-		t.Fatalf("Google service account expected (%s) actual (%s) ", expectedServiceAccount, manifestServiceAccount)
-	}
-}
-
-func TestGoogleWorkerServiceAccount(t *testing.T) {
-	helmChartPath := "../pachyderm"
-
-	expectedServiceAccount := "my-fine-sa"
-	options := &helm.Options{
-		SetValues: map[string]string{
-			"pachd.image.tag":                         "1.12.3",
-			"pachd.storage.backend":                   "GOOGLE",
-			"pachd.storage.google.bucket":             "fake-bucket",
-			"pachd.storage.google.serviceAccountName": expectedServiceAccount,
-		},
-	}
-
-	output := helm.RenderTemplate(t, options, helmChartPath, "blah", []string{"templates/pachd/rbac/worker-serviceaccount.yaml"})
-
-	var serviceAccount v1.ServiceAccount
-
-	helm.UnmarshalK8SYaml(t, output, &serviceAccount)
-
-	manifestServiceAccount := serviceAccount.Annotations["iam.gke.io/gcp-service-account"]
-	if manifestServiceAccount != expectedServiceAccount {
-		t.Fatalf("Google service account expected (%s) actual (%s) ", expectedServiceAccount, manifestServiceAccount)
-	}
-}
-
-func TestGoogleValues(t *testing.T) {
 	type envVarMap struct {
 		helmKey string
 		envVar  string
@@ -71,115 +39,112 @@ func TestGoogleValues(t *testing.T) {
 	testCases := []envVarMap{
 		{
 			helmKey: "pachd.storage.google.bucket",
+			value:   "fake-bucket",
+			envVar:  "GOOGLE_BUCKET",
 		},
 		{
 			helmKey: "pachd.storage.google.cred",
-		}, {
-			helmKey: "pachd.storage.google.serviceAccountName",
+			value:   `INSERT JSON HERE`,
+			envVar:  "GOOGLE_CRED",
 		},
 	}
 	var (
-		bucket               = "fake-bucket"
-		cred                 = `INSERT JSON HERE`
-		pachdServiceAccount  = "128"
-		serviceAccount       = "a-service-account"
-		helmChartPath        = "../pachyderm"
-		provisioner          = "kubernetes.io/gce-pd"
-		expectedStorageClass = "etcd-storage-class"
-		checks               = map[string]bool{
-			"bucket":                false,
-			"cred":                  false,
-			"service account":       false,
-			"STORAGE_BACKEND":       false,
-			"GOOGLE_BUCKET":         false,
-			"GOOGLE_CRED":           false,
-			"volume claim template": false,
-			"storage class":         false,
-		}
-
-		options = &helm.Options{
-			SetStrValues: map[string]string{
-				"pachd.serviceAccount.name":               pachdServiceAccount,
-				"pachd.storage.backend":                   "GOOGLE",
-				"pachd.storage.google.bucket":             bucket,
-				"pachd.storage.google.cred":               cred,
-				"pachd.storage.google.serviceAccountName": serviceAccount,
-			},
-		}
-		output = helm.RenderTemplate(t, options, helmChartPath, "release-name", nil)
+		expectedServiceAccount = "my-fine-sa"
+		expectedProvisioner    = "kubernetes.io/gce-pd"
+		storageBackendEnvVar   = "STORAGE_BACKEND"
+		expectedStorageBackend = "GOOGLE"
 	)
+	helmValues := map[string]string{
+		"pachd.storage.backend":                   expectedStorageBackend,
+		"pachd.storage.google.serviceAccountName": expectedServiceAccount,
+	}
+	for _, tc := range testCases {
+		helmValues[tc.helmKey] = tc.value
+	}
+
+	options := &helm.Options{
+		SetValues: helmValues,
+	}
+
+	templatesToRender := []string{
+		"templates/pachd/storage-secret.yaml",
+		"templates/pachd/deployment.yaml",
+		"templates/pachd/rbac/serviceaccount.yaml",
+		"templates/pachd/rbac/worker-serviceaccount.yaml",
+		"templates/etcd/statefulset.yaml",
+		"templates/etcd/storageclass-gcp.yaml",
+		"templates/postgresql/statefulset.yaml",
+		"templates/postgresql/storageclass-gcp.yaml",
+	}
+	output := helm.RenderTemplate(t, options, helmChartPath, "blah", templatesToRender)
+
 	objects, err := manifestToObjects(output)
 	if err != nil {
 		t.Fatal(err)
 	}
 
+	/*checked := map[string]bool{
+		"pachyderm-storage-secret": false,
+		"pachyderm-worker":         false,
+		"pachyderm":                false,
+		"pachd":                    false,
+		"postgresql-storage-class": false,
+		"etcd-storage-class":       false,
+	}*/
+
+	//NOTE: If adding a new check to this for loop, be sure to add to it the checked map above to ensure it's found
 	for _, object := range objects {
 		switch resource := object.(type) {
 		case *v1.Secret:
 			if resource.Name != "pachyderm-storage-secret" {
 				continue
 			}
-			if b := string(resource.Data["google-bucket"]); b != bucket {
-				t.Errorf("expected bucket to be %q but was %q", bucket, b)
+			//TODO checks["secret"] = true
+			for _, tc := range testCases {
+				t.Run(fmt.Sprintf("%s equals %s", tc.envVar, tc.value), func(t *testing.T) {
+					if got := string(resource.Data[tc.envVar]); got != tc.value {
+						t.Errorf("got %s; want %s", got, tc.value)
+					}
+				})
 			}
-			checks["bucket"] = true
-			if c := string(resource.Data["google-cred"]); c != cred {
-				t.Errorf("expected cred to be %q but was %q", cred, c)
-			}
-			checks["cred"] = true
+
 		case *v1.ServiceAccount:
-			if resource.Name != pachdServiceAccount {
-				continue
+			if resource.Name == "pachyderm-worker" || resource.Name == "pachyderm" {
+
+				t.Run(fmt.Sprintf("%s service account annotation equals %s", resource.Name, expectedServiceAccount), func(t *testing.T) {
+					if sa := resource.Annotations["iam.gke.io/gcp-service-account"]; sa != expectedServiceAccount {
+						t.Errorf("expected service account to be %q but was %q", expectedServiceAccount, sa)
+					}
+				})
+				//TODO checks["service account"] = true
 			}
-			if sa := resource.Annotations["iam.gke.io/gcp-service-account"]; sa != serviceAccount {
-				t.Errorf("expected service account to be %q but was %q", serviceAccount, sa)
-			}
-			checks["service account"] = true
 		case *appsV1.Deployment:
 			if resource.Name != "pachd" {
 				continue
 			}
-			for _, c := range resource.Spec.Template.Spec.Containers {
-				if c.Name != "pachd" {
-					continue
+			//checks["storage class"] = true TODO
+			t.Run("pachd deployment env vars", func(t *testing.T) {
+				c := GetContainerByName("pachd", resource.Spec.Template.Spec.Containers)
+				if c == nil {
+					t.Errorf("pachd container not found in pachd deployment")
 				}
-				for _, e := range c.Env {
-					switch e.Name {
-					case "STORAGE_BACKEND":
-						if e.Value != "GOOGLE" {
-							t.Errorf("expected STORAGE_BACKEND to be %q, not %q", "GOOGLE", e.Value)
-						}
-						checks["STORAGE_BACKEND"] = true
-					case "GOOGLE_BUCKET":
-						checks["GOOGLE_BUCKET"] = true
-					case "GOOGLE_CRED":
-						checks["GOOGLE_CRED"] = true
-					}
+				if _, got := GetEnvVarByName(c.Env, storageBackendEnvVar); got != "GOOGLE" {
+					t.Errorf("expected %s to be %q, not %q", storageBackendEnvVar, expectedStorageBackend, got)
 				}
-			}
-		case *appsV1.StatefulSet:
-			if resource.Name != "etcd" {
-				continue
-			}
-			for _, v := range resource.Spec.VolumeClaimTemplates {
-				if *v.Spec.StorageClassName != expectedStorageClass {
-					continue
-				}
-				checks["volume claim template"] = true
-			}
+
+			})
 		case *storageV1.StorageClass:
-			if resource.Name != expectedStorageClass {
-				continue
+			if resource.Name == "postgresql-storage-class" || resource.Name == "etcd-storage-class" {
+
+				//checks["storage class"] = true TODO
+				t.Run(fmt.Sprintf("%s storage class annotation equals %s", resource.Name, expectedProvisioner), func(t *testing.T) {
+					if resource.Provisioner != expectedProvisioner {
+						t.Errorf("expected storageclass provisioner to be %q but it was %q", expectedProvisioner, resource.Provisioner)
+					}
+				})
+				//TODO Check default storage size for google
 			}
-			if resource.Provisioner != provisioner {
-				t.Errorf("expected storageclass provisioner to be %q but it was %q", provisioner, resource.Provisioner)
-			}
-			checks["storage class"] = true
-		}
-	}
-	for check := range checks {
-		if !checks[check] {
-			t.Errorf("check %q not performed", check)
+
 		}
 	}
 }
