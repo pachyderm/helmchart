@@ -13,20 +13,10 @@ import (
 	storageV1 "k8s.io/api/storage/v1"
 )
 
-//Service Account Test
-//manifestServiceAccount := serviceAccount.Annotations["iam.gke.io/gcp-service-account"]
-//if manifestServiceAccount != expectedServiceAccount {
-//	t.Fatalf("Google service account expected (%s) actual (%s) ", expectedServiceAccount, manifestServiceAccount)
-//}
-
-//Worker Service Account Test (Same as Service Account test)
-
-//Storage Secret Test
-
 //Pachd Deployment - Storage backend
 
 //Etcd / Pachd Storage Class - Should test  storage class name elsewhere
-//Service Account name - Should test  service account name elsewhere
+//Service Account name - Should test setting service account name elsewhere
 
 func TestGoogle(t *testing.T) {
 	helmChartPath := "../pachyderm"
