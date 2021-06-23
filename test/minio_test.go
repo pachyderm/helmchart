@@ -13,6 +13,10 @@ import (
 )
 
 func TestMinio(t *testing.T) {
+	var (
+		expectedStorageBackend = "MINIO"
+	)
+
 	type envVarMap struct {
 		helmKey string
 		envVar  string
@@ -53,15 +57,19 @@ func TestMinio(t *testing.T) {
 	}
 
 	helmValues := map[string]string{
-		"pachd.storage.backend": "MINIO",
+		"pachd.storage.backend": expectedStorageBackend,
 	}
 	for _, tc := range testCases {
 		helmValues[tc.helmKey] = tc.value
 	}
+	templatesToCheck := map[string]bool{
+		"templates/pachd/storage-secret.yaml": false,
+		"templates/pachd/deployment.yaml":     false,
+	}
 
-	templatesToRender := []string{
-		"templates/pachd/storage-secret.yaml",
-		"templates/pachd/deployment.yaml",
+	templatesToRender := []string{}
+	for k := range templatesToCheck {
+		templatesToRender = append(templatesToRender, k)
 	}
 
 	objects, err := manifestToObjects(helm.RenderTemplate(t,
@@ -86,30 +94,25 @@ func TestMinio(t *testing.T) {
 					}
 				})
 			}
+			templatesToCheck["templates/pachd/storage-secret.yaml"] = true
 		case *appsV1.Deployment:
 			if resource.Name != "pachd" {
 				continue
 			}
-			for _, c := range resource.Spec.Template.Spec.Containers {
-				if c.Name != "pachd" {
-					continue
-				}
-				for _, e := range c.Env {
-					switch e.Name {
-					case "STORAGE_BACKEND":
-						if e.Value != "MINIO" {
-							t.Errorf("expected STORAGE_BACKEND to be %q, not %q", "GOOGLE", e.Value)
-						}
-						//checks["STORAGE_BACKEND"] = true
-
-					}
-				}
+			c, ok := GetContainerByName("pachd", resource.Spec.Template.Spec.Containers)
+			if !ok {
+				t.Errorf("pachd container not found in pachd deployment")
 			}
+			if err, got := GetEnvVarByName(c.Env, STORAGE_BACKEND_ENVVAR); err == nil && got != expectedStorageBackend {
+				t.Errorf("expected %q to be %q, not %q", STORAGE_BACKEND_ENVVAR, expectedStorageBackend, got)
+			}
+			templatesToCheck["templates/pachd/deployment.yaml"] = true
 		}
 	}
-	/*for check := range checks {
-		if !checks[check] {
-			t.Errorf("%q incomplete", check)
+
+	for k, ok := range templatesToCheck {
+		if !ok {
+			t.Errorf("template %q not checked", k)
 		}
-	}*/ //TODO
+	}
 }
