@@ -39,24 +39,23 @@ func TestAWS(t *testing.T) {
 		{
 			helmKey: "pachd.storage.amazon.region",
 			envVar:  "AMAZON_REGION",
-			value:   "", //TODO
+			value:   "us-east-1",
 		},
 		{
 			helmKey: "pachd.storage.amazon.secret",
 			envVar:  "AMAZON_SECRET",
-			value:   "", //TODO
+			value:   "a-fine-secret",
 		},
 		{
 			helmKey: "pachd.storage.amazon.token",
 			envVar:  "AMAZON_TOKEN",
-			value:   "", //TODO
+			value:   "a-fine-token",
 		},
 		{
 			helmKey: "pachd.storage.amazon.customEndpoint",
 			envVar:  "CUSTOM_ENDPOINT",
-			value:   "", //TODO
+			value:   "https://myfineendpoint.com",
 		},
-		//TODO Fill in rest of values
 		{
 			helmKey: "pachd.storage.amazon.disableSSL",
 			envVar:  "DISABLE_SSL",
@@ -104,14 +103,16 @@ func TestAWS(t *testing.T) {
 		},
 	}
 	var (
-		//expectedServiceAccount = "my-fine-sa"
-		expectedProvisioner = "ebs.csi.aws.com"
+		expectedServiceAccount = "my-fine-sa"
+		expectedProvisioner    = "ebs.csi.aws.com"
 		//storageBackendEnvVar   = "STORAGE_BACKEND"
 		//expectedStorageBackend = "AMAZON"
 	)
 
 	helmValues := map[string]string{
 		"pachd.storage.backend": "AMAZON",
+		`pachd.serviceAccount.additionalAnnotations.eks\.amazonaws\.com/role-arn`:  expectedServiceAccount,
+		`worker.serviceAccount.additionalAnnotations.eks\.amazonaws\.com/role-arn`: expectedServiceAccount,
 	}
 	for _, tc := range testCases {
 		helmValues[tc.helmKey] = tc.value
@@ -149,6 +150,16 @@ func TestAWS(t *testing.T) {
 						t.Errorf("got %s; want %s", got, tc.value)
 					}
 				})
+			}
+		case *v1.ServiceAccount:
+			if resource.Name == "pachyderm-worker" || resource.Name == "pachyderm" {
+
+				t.Run(fmt.Sprintf("%s service account annotation equals %s", resource.Name, expectedServiceAccount), func(t *testing.T) {
+					if sa := resource.Annotations["eks.amazonaws.com/role-arn"]; sa != expectedServiceAccount {
+						t.Errorf("expected service account to be %q but was %q", expectedServiceAccount, sa)
+					}
+				})
+				//TODO checks["service account"] = true
 			}
 		case *storageV1.StorageClass:
 			if resource.Name == "postgresql-storage-class" || resource.Name == "etcd-storage-class" {
