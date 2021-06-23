@@ -94,7 +94,7 @@ func TestMicrosoft(t *testing.T) {
 						t.Errorf("expected storageclass provisioner to be %q but it was %q", expectedProvisioner, resource.Provisioner)
 					}
 				})
-				//Check all params in storage class set for microsoft
+				//TODO Check all params in storage class set for microsoft
 				if resource.Name == "postgresql-storage-class" {
 					templatesToCheck["templates/postgresql/storageclass-azure.yaml"] = true
 				}
