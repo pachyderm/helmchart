@@ -13,13 +13,10 @@ import (
 	storageV1 "k8s.io/api/storage/v1"
 )
 
-//Pachd Deployment - Storage backend
-
 //Etcd / Pachd Storage Class - Should test  storage class name elsewhere
 //Service Account name - Should test setting service account name elsewhere
 
 func TestGoogle(t *testing.T) {
-	helmChartPath := "../pachyderm"
 
 	type envVarMap struct {
 		helmKey string
@@ -41,7 +38,6 @@ func TestGoogle(t *testing.T) {
 	var (
 		expectedServiceAccount = "my-fine-sa"
 		expectedProvisioner    = "kubernetes.io/gce-pd"
-		storageBackendEnvVar   = "STORAGE_BACKEND"
 		expectedStorageBackend = "GOOGLE"
 	)
 	helmValues := map[string]string{
@@ -52,44 +48,37 @@ func TestGoogle(t *testing.T) {
 		helmValues[tc.helmKey] = tc.value
 	}
 
-	options := &helm.Options{
+	templatesToCheck := map[string]bool{
+		"templates/pachd/storage-secret.yaml":             false,
+		"templates/pachd/deployment.yaml":                 false,
+		"templates/pachd/rbac/serviceaccount.yaml":        false,
+		"templates/pachd/rbac/worker-serviceaccount.yaml": false,
+		"templates/etcd/statefulset.yaml":                 false,
+		"templates/etcd/storageclass-gcp.yaml":            false,
+		"templates/postgresql/statefulset.yaml":           false,
+		"templates/postgresql/storageclass-gcp.yaml":      false,
+	}
+
+	templatesToRender := []string{}
+	for k := range templatesToCheck {
+		templatesToRender = append(templatesToRender, k)
+	}
+
+	objects, err := manifestToObjects(helm.RenderTemplate(t, &helm.Options{
 		SetValues: helmValues,
-	}
+	}, "../pachyderm", "blah", templatesToRender))
 
-	templatesToRender := []string{
-		"templates/pachd/storage-secret.yaml",
-		"templates/pachd/deployment.yaml",
-		"templates/pachd/rbac/serviceaccount.yaml",
-		"templates/pachd/rbac/worker-serviceaccount.yaml",
-		"templates/etcd/statefulset.yaml",
-		"templates/etcd/storageclass-gcp.yaml",
-		"templates/postgresql/statefulset.yaml",
-		"templates/postgresql/storageclass-gcp.yaml",
-	}
-	output := helm.RenderTemplate(t, options, helmChartPath, "blah", templatesToRender)
-
-	objects, err := manifestToObjects(output)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	/*checked := map[string]bool{
-		"pachyderm-storage-secret": false,
-		"pachyderm-worker":         false,
-		"pachyderm":                false,
-		"pachd":                    false,
-		"postgresql-storage-class": false,
-		"etcd-storage-class":       false,
-	}*/
-
-	//NOTE: If adding a new check to this for loop, be sure to add to it the checked map above to ensure it's found
 	for _, object := range objects {
 		switch resource := object.(type) {
 		case *v1.Secret:
 			if resource.Name != "pachyderm-storage-secret" {
 				continue
 			}
-			//TODO checks["secret"] = true
+
 			for _, tc := range testCases {
 				t.Run(fmt.Sprintf("%s equals %s", tc.envVar, tc.value), func(t *testing.T) {
 					if got := string(resource.Data[tc.envVar]); got != tc.value {
@@ -97,7 +86,7 @@ func TestGoogle(t *testing.T) {
 					}
 				})
 			}
-
+			templatesToCheck["templates/pachd/storage-secret.yaml"] = true
 		case *v1.ServiceAccount:
 			if resource.Name == "pachyderm-worker" || resource.Name == "pachyderm" {
 
@@ -106,35 +95,81 @@ func TestGoogle(t *testing.T) {
 						t.Errorf("expected service account to be %q but was %q", expectedServiceAccount, sa)
 					}
 				})
-				//TODO checks["service account"] = true
+				if resource.Name == "pachyderm-worker" {
+					templatesToCheck["templates/pachd/rbac/worker-serviceaccount.yaml"] = true
+				}
+				if resource.Name == "pachyderm" {
+					templatesToCheck["templates/pachd/rbac/serviceaccount.yaml"] = true
+				}
+
 			}
 		case *appsV1.Deployment:
 			if resource.Name != "pachd" {
 				continue
 			}
-			//checks["storage class"] = true TODO
+
 			t.Run("pachd deployment env vars", func(t *testing.T) {
-				c := GetContainerByName("pachd", resource.Spec.Template.Spec.Containers)
-				if c == nil {
+				c, ok := GetContainerByName("pachd", resource.Spec.Template.Spec.Containers)
+				if !ok {
 					t.Errorf("pachd container not found in pachd deployment")
 				}
-				if _, got := GetEnvVarByName(c.Env, storageBackendEnvVar); got != "GOOGLE" {
-					t.Errorf("expected %s to be %q, not %q", storageBackendEnvVar, expectedStorageBackend, got)
+				if err, got := GetEnvVarByName(c.Env, STORAGE_BACKEND_ENVVAR); err == nil && got != expectedStorageBackend {
+					t.Errorf("expected %s to be %q, not %q", STORAGE_BACKEND_ENVVAR, expectedStorageBackend, got)
 				}
-
 			})
+			templatesToCheck["templates/pachd/deployment.yaml"] = true
 		case *storageV1.StorageClass:
 			if resource.Name == "postgresql-storage-class" || resource.Name == "etcd-storage-class" {
 
-				//checks["storage class"] = true TODO
 				t.Run(fmt.Sprintf("%s storage class annotation equals %s", resource.Name, expectedProvisioner), func(t *testing.T) {
 					if resource.Provisioner != expectedProvisioner {
 						t.Errorf("expected storageclass provisioner to be %q but it was %q", expectedProvisioner, resource.Provisioner)
 					}
 				})
-				//TODO Check default storage size for google
-			}
 
+				if resource.Name == "postgresql-storage-class" {
+					templatesToCheck["templates/postgresql/storageclass-gcp.yaml"] = true
+				}
+				if resource.Name == "etcd-storage-class" {
+					templatesToCheck["templates/etcd/storageclass-gcp.yaml"] = true
+				}
+			}
+		case *appsV1.StatefulSet:
+			if resource.Name == "etcd" || resource.Name == "postgres" {
+
+				for _, pvc := range resource.Spec.VolumeClaimTemplates {
+					// Check Google Default Storage Request
+					expectedStorageSize := "50Gi"
+
+					if pvc.Name == "etcd-storage" {
+						t.Run(fmt.Sprintf("%s storage class storage resource request equals %s", resource.Name, expectedStorageSize), func(t *testing.T) {
+							if got := pvc.Spec.Resources.Requests.Storage().String(); got != expectedStorageSize {
+								t.Errorf("expected stateful set storage resource request to be %q but it was %q", expectedStorageSize, got)
+
+							}
+						})
+						templatesToCheck["templates/etcd/statefulset.yaml"] = true
+					}
+
+					if pvc.Name == "postgres-storage" {
+						t.Run(fmt.Sprintf("%s storage class storage resource request equals %s", resource.Name, expectedStorageSize), func(t *testing.T) {
+							if got := pvc.Spec.Resources.Requests.Storage().String(); got != expectedStorageSize {
+								t.Errorf("expected stateful set storage resource request to be %q but it was %q", expectedStorageSize, got)
+
+							}
+						})
+						templatesToCheck["templates/postgresql/statefulset.yaml"] = true
+
+					}
+
+				}
+			}
+		}
+	}
+
+	for k, ok := range templatesToCheck {
+		if !ok {
+			t.Errorf("template %q not checked", k)
 		}
 	}
 }

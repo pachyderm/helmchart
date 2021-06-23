@@ -22,6 +22,10 @@ func init() {
 	logger.Default = logger.Discard
 }
 
+const (
+	STORAGE_BACKEND_ENVVAR = "STORAGE_BACKEND"
+)
+
 // adapted from https://play.golang.org/p/MZNwxdUzxPo
 func splitYAML(manifest string) ([]string, error) {
 	dec := goyaml.NewDecoder(bytes.NewReader([]byte(manifest)))
@@ -147,11 +151,11 @@ func GetEnvVarByName(envVars []v1.EnvVar, name string) (error, string) {
 }
 
 // GetContainerByName returns container or nil
-func GetContainerByName(name string, containers []v1.Container) *v1.Container {
+func GetContainerByName(name string, containers []v1.Container) (*v1.Container, bool) {
 	for _, c := range containers {
 		if c.Name == name {
-			return &c
+			return &c, true
 		}
 	}
-	return nil
+	return &v1.Container{}, false
 }
