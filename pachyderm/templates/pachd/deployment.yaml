@@ -22,9 +22,6 @@ spec:
     metadata:
       annotations:
         checksum/storage-secret: {{ include (print $.Template.BasePath "/pachd/storage-secret.yaml") . | sha256sum }}
-        {{- if .Values.pachd.storage.amazon.iamRole }}
-        iam.amazonaws.com/role: {{ .Values.pachd.storage.amazon.iamRole }}
-        {{- end }}
       labels:
         app: pachd
         suite: pachyderm
@@ -75,10 +72,6 @@ spec:
         {{- end }}
         - name: LOG_LEVEL
           value: {{ .Values.pachd.logLevel }}
-        {{- if.Values.pachd.storage.amazon.iamRole }}
-        - name: IAM_ROLE
-          value: {{ .Values.pachd.storage.amazon.iamRole | quote }}
-        {{- end }}
         - name: NO_EXPOSE_DOCKER_SOCKET
           value: {{ .Values.pachd.exposeDockerSocket | not | quote }}
         - name: PACH_NAMESPACE

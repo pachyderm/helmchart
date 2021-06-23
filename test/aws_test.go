@@ -159,7 +159,7 @@ func TestAWS(t *testing.T) {
 						t.Errorf("expected storageclass provisioner to be %q but it was %q", expectedProvisioner, resource.Provisioner)
 					}
 				})
-				//TODO Check default storage size for google
+				//TODO Check default storage size for amazon
 			}
 
 		}
