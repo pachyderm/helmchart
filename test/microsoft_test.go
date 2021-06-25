@@ -112,8 +112,8 @@ func TestMicrosoft(t *testing.T) {
 				if !ok {
 					t.Errorf("pachd container not found in pachd deployment")
 				}
-				if err, got := GetEnvVarByName(c.Env, STORAGE_BACKEND_ENVVAR); err == nil && got != expectedStorageBackend {
-					t.Errorf("expected %s to be %q, not %q", STORAGE_BACKEND_ENVVAR, expectedStorageBackend, got)
+				if err, got := GetEnvVarByName(c.Env, storageBackendEnvVar); err == nil && got != expectedStorageBackend {
+					t.Errorf("expected %s to be %q, not %q", storageBackendEnvVar, expectedStorageBackend, got)
 				}
 			})
 			templatesToCheck["templates/pachd/deployment.yaml"] = true

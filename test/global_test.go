@@ -23,7 +23,7 @@ func init() {
 }
 
 const (
-	STORAGE_BACKEND_ENVVAR = "STORAGE_BACKEND"
+	storageBackendEnvVar = "STORAGE_BACKEND"
 )
 
 // adapted from https://play.golang.org/p/MZNwxdUzxPo

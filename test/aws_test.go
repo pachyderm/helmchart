@@ -65,7 +65,7 @@ func TestAWS(t *testing.T) {
 		{
 			helmKey: "pachd.storage.amazon.logOptions",
 			envVar:  "OBJ_LOG_OPTS",
-			value:   "Debug,Signing",
+			value:   "Debug",
 		},
 		/*{
 			helmKey: "pachd.storage.amazon.maxUploadParts",
@@ -77,11 +77,11 @@ func TestAWS(t *testing.T) {
 			envVar:  "NO_VERIFY_SSL",
 			value:   "", //TODO bool
 		},*/
-		{
+		/*{
 			helmKey: "pachd.storage.amazon.partSize",
 			envVar:  "PART_SIZE",
-			value:   "5555555",
-		},
+			value:   "", //TODO int
+		},*/
 		/*{
 			helmKey: "pachd.storage.amazon.retries",
 			envVar:  "RETRIES",
@@ -200,8 +200,8 @@ func TestAWS(t *testing.T) {
 				if !ok {
 					t.Errorf("pachd container not found in pachd deployment")
 				}
-				if err, got := GetEnvVarByName(c.Env, STORAGE_BACKEND_ENVVAR); err == nil && got != expectedStorageBackend {
-					t.Errorf("expected %s to be %q, not %q", STORAGE_BACKEND_ENVVAR, expectedStorageBackend, got)
+				if err, got := GetEnvVarByName(c.Env, storageBackendEnvVar); err == nil && got != expectedStorageBackend {
+					t.Errorf("expected %s to be %q, not %q", storageBackendEnvVar, expectedStorageBackend, got)
 				}
 			})
 			templatesToCheck["templates/pachd/deployment.yaml"] = true
