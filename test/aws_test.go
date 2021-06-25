@@ -95,7 +95,7 @@ func TestAWS(t *testing.T) {
 		{
 			helmKey: "pachd.storage.amazon.timeout",
 			envVar:  "TIMEOUT",
-			value:   "", //TODO
+			value:   "10m",
 		},
 		{
 			helmKey: "pachd.storage.amazon.uploadACL",
