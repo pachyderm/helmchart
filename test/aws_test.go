@@ -65,32 +65,32 @@ func TestAWS(t *testing.T) {
 		{
 			helmKey: "pachd.storage.amazon.logOptions",
 			envVar:  "OBJ_LOG_OPTS",
-			value:   "", //TODO
+			value:   "Debug,Signing",
 		},
 		/*{
 			helmKey: "pachd.storage.amazon.maxUploadParts",
 			envVar:  "MAX_UPLOAD_PARTS",
-			value:   "", //TODO
+			value:   "", //TODO Int
 		},*/
 		/*{
 			helmKey: "pachd.storage.amazon.verifySSL",
 			envVar:  "NO_VERIFY_SSL",
-			value:   "", //TODO
+			value:   "", //TODO bool
 		},*/
 		{
 			helmKey: "pachd.storage.amazon.partSize",
 			envVar:  "PART_SIZE",
-			value:   "", //TODO
+			value:   "5555555",
 		},
 		/*{
 			helmKey: "pachd.storage.amazon.retries",
 			envVar:  "RETRIES",
-			value:   "", //TODO
+			value:   "", //TODO int
 		},*/
 		/*{
 			helmKey: "pachd.storage.amazon.reverse",
 			envVar:  "REVERSE",
-			value:   "", //TODO
+			value:   "", //TODO bool
 		},*/
 		{
 			helmKey: "pachd.storage.amazon.timeout",
@@ -100,7 +100,7 @@ func TestAWS(t *testing.T) {
 		{
 			helmKey: "pachd.storage.amazon.uploadACL",
 			envVar:  "UPLOAD_ACL",
-			value:   "", //TODO
+			value:   "read-only",
 		},
 	}
 	var (
