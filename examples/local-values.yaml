@@ -3,8 +3,6 @@
 
 deployTarget: LOCAL
 
-pachd:
-
 dash:
   config:
     issuerURI: "http://localhost:30658/"
