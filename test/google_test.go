@@ -41,7 +41,7 @@ func TestGoogle(t *testing.T) {
 		expectedStorageBackend = "GOOGLE"
 	)
 	helmValues := map[string]string{
-		"pachd.deployTarget":                      expectedStorageBackend,
+		"deployTarget": expectedStorageBackend,
 		"pachd.storage.google.serviceAccountName": expectedServiceAccount,
 	}
 	for _, tc := range testCases {
