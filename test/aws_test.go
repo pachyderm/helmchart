@@ -110,7 +110,7 @@ func TestAWS(t *testing.T) {
 	)
 
 	helmValues := map[string]string{
-		"pachd.storage.backend": "AMAZON",
+		"pachd.deployTarget": "AMAZON",
 		`pachd.serviceAccount.additionalAnnotations.eks\.amazonaws\.com/role-arn`:  expectedServiceAccount,
 		`worker.serviceAccount.additionalAnnotations.eks\.amazonaws\.com/role-arn`: expectedServiceAccount,
 	}
