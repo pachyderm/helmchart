@@ -80,7 +80,7 @@ spec:
       name: etcd-storage
       namespace: {{ .Release.Namespace }}
     spec:
-      {{- if not (eq .Values.pachd.deployTarget "LOCAL") }}
+      {{- if not (eq .Values.deployTarget "LOCAL") }}
       storageClassName: {{ .Values.etcd.storageClass | default "etcd-storage-class" }}
       {{- end }}
       accessModes:
