@@ -9,7 +9,7 @@ imagePullSecret: ""
 
 # Deploy Target configures the storage backend to use and cloud provider 
 # settings (storage classes, etc). It must be one of GOOGLE, AMAZON, 
-# MINIO, MICROSOFT or LOCAL.
+# MINIO, MICROSOFT, CUSTOM or LOCAL.
 deployTarget: ""
 
 loadBalancer:
@@ -158,6 +158,9 @@ pachd:
     additionalAnnotations: {}
     name: "pachyderm" #TODO Set default in helpers / Wire up in templates
   storage:
+    # backend configures the storage backend to use.  It must be one
+    # of GOOGLE, AMAZON, MINIO, MICROSOFT or LOCAL. This is set automatically 
+    # if deployTarget is GOOGLE, AMAZON, MICROSOFT, or LOCAL
     backend: ""
     amazon:
       # bucket sets the S3 bucket to use.
