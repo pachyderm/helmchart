@@ -158,6 +158,7 @@ pachd:
     additionalAnnotations: {}
     name: "pachyderm" #TODO Set default in helpers / Wire up in templates
   storage:
+    backend: ""
     amazon:
       # bucket sets the S3 bucket to use.
       bucket: ""

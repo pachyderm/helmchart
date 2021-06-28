@@ -302,6 +302,9 @@
                                 }
                             }
                         },
+                        "backend": {
+                            "type": "string"
+                        },
                         "google": {
                             "type": "object",
                             "properties": {

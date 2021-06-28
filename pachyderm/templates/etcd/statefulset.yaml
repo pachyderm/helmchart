@@ -80,7 +80,7 @@ spec:
       name: etcd-storage
       namespace: {{ .Release.Namespace }}
     spec:
-      {{- if not (eq .Values.deployTarget "LOCAL") }}
+      {{- if or .Values.etcd.storageClass  (eq .Values.deployTarget "GOOGLE") (eq .Values.deployTarget "MICROSOFT") (eq .Values.deployTarget "AMAZON") }}
       storageClassName: {{ .Values.etcd.storageClass | default "etcd-storage-class" }}
       {{- end }}
       accessModes:
