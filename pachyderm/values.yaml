@@ -169,7 +169,7 @@ pachd:
     ssl: "disable"
     user: ""
     password: ""
-    cloudsql-auth-proxy:
+    cloudsqlAuthProxy:
       enabled: true
       image:
         repository: "gcr.io/cloudsql-docker/gce-proxy"

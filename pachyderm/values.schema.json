@@ -299,7 +299,7 @@
                 "postgresql": {
                     "type": "object",
                     "properties": {
-                        "cloudsql-auth-proxy": {
+                        "cloudsqlAuthProxy": {
                             "type": "object",
                             "properties": {
                                 "enabled": {
