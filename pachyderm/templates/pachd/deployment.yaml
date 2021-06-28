@@ -173,6 +173,7 @@ spec:
           # If connecting from a VPC-native GKE cluster, you can use the
           # following flag to have the proxy connect over private IP
           # - "-ip_address_types=PRIVATE"
+          - "-enable-iam-login"
           # TODO: @Sean - verify host is correct
           - "-instances={{ .Values.pachd.postgesql.host }}=tcp:{{ .Values.pachd.postgresql.port }}"
         securityContext:
