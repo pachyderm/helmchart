@@ -173,7 +173,7 @@ pachd:
       enabled: true
       image:
         repository: "gcr.io/cloudsql-docker/gce-proxy"
-        tag: "1.17"
+        tag: "1.23.0"
       resources:
         requests:
           # The proxy's memory use scales linearly with the number of active
