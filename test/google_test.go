@@ -89,12 +89,12 @@ func TestGoogle(t *testing.T) {
 			templatesToCheck["templates/pachd/storage-secret.yaml"] = true
 		case *v1.ServiceAccount:
 			if resource.Name == "pachyderm-worker" || resource.Name == "pachyderm" {
-				/*
-					t.Run(fmt.Sprintf("%s service account annotation equals %s", resource.Name, expectedServiceAccount), func(t *testing.T) {
-						if sa := resource.Annotations["iam.gke.io/gcp-service-account"]; sa != expectedServiceAccount {
-							t.Errorf("expected service account to be %q but was %q", expectedServiceAccount, sa)
-						}
-					})*/
+
+				t.Run(fmt.Sprintf("%s service account annotation equals %s", resource.Name, expectedServiceAccount), func(t *testing.T) {
+					if sa := resource.Annotations["iam.gke.io/gcp-service-account"]; sa != expectedServiceAccount {
+						t.Errorf("expected service account to be %q but was %q", expectedServiceAccount, sa)
+					}
+				})
 				if resource.Name == "pachyderm-worker" {
 					templatesToCheck["templates/pachd/rbac/worker-serviceaccount.yaml"] = true
 				}
