@@ -118,8 +118,8 @@ spec:
         - containerPort: 1650
           name: api-grpc-port
           protocol: TCP
-        - containerPort: 1651 # Confirm for 2.0
-          name: trace-port
+        - containerPort: 1651
+          name: trace-port # Confirm for 2.0
         - containerPort: 1653
           name: peer-port
           protocol: TCP
@@ -129,7 +129,7 @@ spec:
         - containerPort: 1658
           name: identity-port
           protocol: TCP
-        - containerPort: 1656 # Confirm for 2.0
+        - containerPort: 1656 #Confirm for 2.0
           name: prom-metrics
           protocol: TCP
         readinessProbe:
