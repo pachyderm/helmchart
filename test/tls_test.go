@@ -25,7 +25,6 @@ func TestEnablePachTLSNoName(t *testing.T) {
 }
 
 func TestEnablePachTLSExistingSecret(t *testing.T) {
-	helmChartPath := "../pachyderm"
 	options := &helm.Options{
 		SetValues: map[string]string{
 			"pachd.storage.backend": "LOCAL",
@@ -33,9 +32,40 @@ func TestEnablePachTLSExistingSecret(t *testing.T) {
 			"pachd.tls.secretName":  "blah",
 		},
 	}
+	templates := []string{"templates/pachd/deployment.yaml"}
+	output := helm.RenderTemplate(t, options, "../pachyderm", "blah", templates)
 
-	manifest := helm.RenderTemplate(t, options, helmChartPath, "secret", []string{"templates/pachd/deployment.yaml"})
-	fmt.Println(manifest)
+	var deployment *appsv1.Deployment
+
+	helm.UnmarshalK8SYaml(t, output, &deployment)
+
+	pachd, ok := GetContainerByName("pachd", deployment.Spec.Template.Spec.Containers)
+	if !ok {
+		t.Fatalf("pachd container not found")
+	}
+	want := v1.VolumeMount{
+		Name:      "pachd-tls-cert",
+		MountPath: "/pachd-tls-cert",
+	}
+
+	if !ensureVolumeMountPresent(want, pachd.VolumeMounts) {
+		t.Error("TLS Secret Volume Mount not found in deployment")
+	}
+
+	volumes := deployment.Spec.Template.Spec.Volumes
+	wantVol := v1.Volume{
+		VolumeSource: v1.VolumeSource{
+			Secret: &v1.SecretVolumeSource{
+				SecretName: "blah",
+			},
+		},
+		Name: "pachd-tls-cert",
+	}
+
+	if !ensureVolumePresent(wantVol, volumes) {
+		t.Error("TLS Volume not found")
+	}
+
 }
 
 func TestEnableDashTLSNoName(t *testing.T) {
@@ -44,7 +74,7 @@ func TestEnableDashTLSNoName(t *testing.T) {
 		SetValues: map[string]string{
 			"pachd.storage.backend": "LOCAL",
 			"dash.tls.enabled":      "true",
-			"dash.url":              "http://blah.com",
+			"dash.ingress.host":     "http://blah.com",
 		},
 	}
 
@@ -61,7 +91,8 @@ func TestEnableDashTLSExistingSecret(t *testing.T) {
 			"pachd.storage.backend": "LOCAL",
 			"dash.tls.enabled":      "true",
 			"dash.tls.secretName":   "blah",
-			"dash.url":              "http://blah.com",
+			"dash.ingress.enabled":  "true",
+			"dash.ingress.host":     "http://blah.com",
 		},
 	}
 
@@ -76,7 +107,7 @@ func TestDashTLSNewSecretNoEnable(t *testing.T) {
 		SetValues: map[string]string{
 			"pachd.storage.backend":  "LOCAL",
 			"dash.tls.newSecret.crt": "blah",
-			"dash.url":               "http://blah.com",
+			"dash.ingress.host":      "http://blah.com",
 		},
 	}
 
