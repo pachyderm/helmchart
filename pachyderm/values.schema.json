@@ -144,12 +144,6 @@
                 "storageClass": {
                     "type": "string"
                 },
-                "storageParameters": {
-                    "type": "object"
-                },
-                "storageProvisioner": {
-                    "type": "string"
-                },
                 "storageSize": {
                     "type": "string"
                 }
@@ -443,12 +437,6 @@
                     }
                 },
                 "storageClass": {
-                    "type": "string"
-                },
-                "storageParameters": {
-                    "type": "object"
-                },
-                "storageProvisioner": {
                     "type": "string"
                 }
             }

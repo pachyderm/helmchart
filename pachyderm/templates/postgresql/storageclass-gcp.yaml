@@ -12,6 +12,6 @@ metadata:
     suite: pachyderm
   name: postgresql-storage-class
 parameters:
-{{ include "pachyderm.postgresql.storageParameters" . | indent 2}}
-provisioner: {{ include "pachyderm.postgresql.storageProvisioner" . }}
+  type: pd-ssd
+provisioner: kubernetes.io/gce-pd
 {{ end -}}

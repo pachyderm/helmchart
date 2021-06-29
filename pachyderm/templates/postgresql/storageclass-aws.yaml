@@ -12,6 +12,7 @@ metadata:
     suite: pachyderm
   name: postgresql-storage-class
 parameters:
-{{ include "pachyderm.postgresql.storageParameters" . | indent 2}}
-provisioner: {{ include "pachyderm.postgresql.storageProvisioner" . }}
+  type: gp3
+# https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html
+provisioner: ebs.csi.aws.com 
 {{ end -}}

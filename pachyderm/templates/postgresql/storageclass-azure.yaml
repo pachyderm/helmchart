@@ -12,6 +12,7 @@ metadata:
     suite: pachyderm
   name: postgresql-storage-class
 parameters:
-{{ include "pachyderm.postgresql.storageParameters" . | indent 2}}
-provisioner: {{ include "pachyderm.postgresql.storageProvisioner" . }}
+  storageaccounttype: Premium_LRS
+  kind: Managed
+provisioner: kubernetes.io/azure-disk
 {{ end -}}

@@ -12,6 +12,6 @@ metadata:
     suite: pachyderm
   name: etcd-storage-class
 parameters:
-{{ include "pachyderm.etcd.storageParameters" . | indent 2}}
-provisioner: {{ include "pachyderm.etcd.storageProvisioner" . }}
+  type: pd-ssd
+provisioner: kubernetes.io/gce-pd
 {{ end -}}
