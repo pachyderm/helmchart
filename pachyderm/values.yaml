@@ -146,7 +146,7 @@ pachd:
     enabled: false
     # (Optional) specify the existing IP Address of the load balancer
     loadBalancerIP: ""
-    apiGRPCPort: 31400
+    apiGRPCPort: 30650
     apiHTTPPort: 30652
     s3GatewayPort: 30600
   service:
