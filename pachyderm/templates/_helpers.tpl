@@ -32,7 +32,7 @@ LOCAL
   {{ $v }}
 {{- end -}}
 {{- else if eq (include "pachyderm.storageBackend" .) "AMAZON" -}}
-type: gp3
+type: gp2
 {{- else if eq (include "pachyderm.storageBackend" .) "GOOGLE" -}}
 type: pd-ssd
 {{- else if eq (include "pachyderm.storageBackend" .) "MICROSOFT" -}}
@@ -60,7 +60,7 @@ kubernetes.io/azure-disk
   {{ $v }}
 {{- end -}}
 {{- else if eq (include "pachyderm.storageBackend" .) "AMAZON" -}}
-type: gp3
+type: gp2
 {{- else if eq (include "pachyderm.storageBackend" .) "GOOGLE" -}}
 type: pd-ssd
 {{- else if eq (include "pachyderm.storageBackend" .) "MICROSOFT" -}}
