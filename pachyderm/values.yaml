@@ -183,8 +183,6 @@ pachd:
     user: ""
     password: ""
   requireCriticalServersOnly: false
-  # Run pachyderm without root
-  runAsRoot: false
   service:
     # labels specifies labels to add to the pachd service.
     labels: {}
@@ -288,6 +286,7 @@ pachd:
       # will be stored.  It must end in /.  It is analogous to the
       # --host-path argument to pachctl deploy.
       hostPath: ""
+      requireRoot: true #Root required for hostpath, but we run rootless in CI
     microsoft:
       container: ""
       id: ""

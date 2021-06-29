@@ -166,7 +166,7 @@ spec:
         - mountPath: /pachd-tls-cert
           name: pachd-tls-cert
         {{- end }}
-      {{- if or (eq .Values.pachd.storage.backend "LOCAL") .Values.pachd.runAsRoot }}
+      {{- if and (eq .Values.deployTarget "LOCAL") .Values.pachd.storage.local.requireRoot }}
       securityContext:
         runAsUser: 0 # Need to run as root local for hostpath support
       {{- end }}

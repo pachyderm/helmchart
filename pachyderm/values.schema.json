@@ -308,9 +308,6 @@
                 "resources": {
                     "type": "object"
                 },
-                "runAsRoot": {
-                    "type": "boolean"
-                },
                 "service": {
                     "type": "object",
                     "properties": {
@@ -414,6 +411,9 @@
                             "properties": {
                                 "hostPath": {
                                     "type": "string"
+                                },
+                                "requireRoot": {
+                                    "type": "boolean"
                                 }
                             }
                         },
