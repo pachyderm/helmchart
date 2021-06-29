@@ -11,14 +11,14 @@ metadata:
 spec:
   ports:
   - name: api-grpc-port
-    port: 31400
-    targetPort: 650
+    port: {{ .Values.pachd.externalService.apiGRPCPort }}
+    targetPort: api-grpc-port
   - name: api-http-port
-    port: 30652
-    targetPort: 652
+    port: {{ .Values.pachd.externalService.apiHTTPPort }}
+    targetPort: api-http-port
   - name: s3-gateway-port
-    port: 30600
-    targetPort: 600
+    port: {{ .Values.pachd.externalService.s3GatewayPort }} 
+    targetPort: s3gateway-port
   selector:
     app: pachd
   type: LoadBalancer

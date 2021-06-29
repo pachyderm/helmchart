@@ -150,11 +150,20 @@
                 "externalService": {
                     "type": "object",
                     "properties": {
+                        "apiGRPCPort": {
+                            "type": "integer"
+                        },
+                        "apiHTTPPort": {
+                            "type": "integer"
+                        },
                         "enabled": {
                             "type": "boolean"
                         },
                         "loadBalancerIP": {
                             "type": "string"
+                        },
+                        "s3GatewayPort": {
+                            "type": "integer"
                         }
                     }
                 },
