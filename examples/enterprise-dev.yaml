@@ -1,3 +1,4 @@
+deployTarget: LOCAL
 dash:
   enabled: false
 enterpriseServer:
@@ -8,5 +9,3 @@ enterpriseServer:
     tag: local
 pachd:
   enabled: false
-  storage:
-    backend: LOCAL # Needed for PVC
