@@ -25,11 +25,12 @@ func TestEnablePachTLSNoName(t *testing.T) {
 }
 
 func TestEnablePachTLSExistingSecret(t *testing.T) {
+	expectedSecretName := "blah"
 	options := &helm.Options{
 		SetValues: map[string]string{
 			"pachd.storage.backend": "LOCAL",
 			"pachd.tls.enabled":     "true",
-			"pachd.tls.secretName":  "blah",
+			"pachd.tls.secretName":  expectedSecretName,
 		},
 	}
 	templates := []string{"templates/pachd/deployment.yaml"}
@@ -56,7 +57,7 @@ func TestEnablePachTLSExistingSecret(t *testing.T) {
 	wantVol := v1.Volume{
 		VolumeSource: v1.VolumeSource{
 			Secret: &v1.SecretVolumeSource{
-				SecretName: "blah",
+				SecretName: expectedSecretName,
 			},
 		},
 		Name: "pachd-tls-cert",
@@ -86,11 +87,12 @@ func TestEnableDashTLSNoName(t *testing.T) {
 
 func TestEnableDashTLSExistingSecret(t *testing.T) {
 	helmChartPath := "../pachyderm"
+	expectedSecretName := "blah"
 	options := &helm.Options{
 		SetValues: map[string]string{
 			"pachd.storage.backend":       "LOCAL",
 			"dash.ingress.tls.enabled":    "true",
-			"dash.ingress.tls.secretName": "blah",
+			"dash.ingress.tls.secretName": expectedSecretName,
 			"dash.ingress.enabled":        "true",
 			"dash.ingress.host":           "http://blah.com",
 		},
@@ -102,12 +104,12 @@ func TestEnableDashTLSExistingSecret(t *testing.T) {
 	helm.UnmarshalK8SYaml(t, output, &ingress)
 	found := false
 	for _, t := range ingress.Spec.TLS {
-		if t.SecretName == "blah" {
+		if t.SecretName == expectedSecretName {
 			found = true
 		}
 	}
 	if !found {
-		t.Errorf("TLS Secret not in ingress")
+		t.Errorf("Expected TLS Secret not in ingress")
 	}
 
 }
