@@ -1,12 +1,12 @@
 package helmtest
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/gruntwork-io/terratest/modules/helm"
 	appsv1 "k8s.io/api/apps/v1"
 	v1 "k8s.io/api/core/v1"
+	"k8s.io/api/networking/v1beta1"
 )
 
 func TestEnablePachTLSNoName(t *testing.T) {
@@ -96,9 +96,20 @@ func TestEnableDashTLSExistingSecret(t *testing.T) {
 		},
 	}
 
-	manifest := helm.RenderTemplate(t, options, helmChartPath, "secret", []string{"templates/dash/ingress.yaml"})
+	output := helm.RenderTemplate(t, options, helmChartPath, "secret", []string{"templates/dash/ingress.yaml"})
+	var ingress *v1beta1.Ingress
 
-	fmt.Println(manifest)
+	helm.UnmarshalK8SYaml(t, output, &ingress)
+	found := false
+	for _, t := range ingress.Spec.TLS {
+		if t.SecretName == "blah" {
+			found = true
+		}
+	}
+	if !found {
+		t.Errorf("TLS Secret not in ingress")
+	}
+
 }
 
 func TestDashTLSNewSecretNoEnable(t *testing.T) {
@@ -127,7 +138,6 @@ func TestPachTLSNewSecretNoEnable(t *testing.T) {
 	}
 
 	_, err := helm.RenderTemplateE(t, options, helmChartPath, "deployment", []string{"templates/pachd/deployment.yaml"})
-	fmt.Println(err)
 	if err == nil {
 		t.Error("Template should error")
 	}
