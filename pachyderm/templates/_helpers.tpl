@@ -24,3 +24,59 @@ LOCAL
 {{ fail "pachd.storage.backend required when no matching deploy target found" }}
 {{- end -}}
 {{- end -}}
+
+{{- define "pachyderm.etcd.storageParameters" -}}
+{{- if .Values.etcd.storageParameters -}}
+{{- range $k, $v := .Values.etcd.storageParameters }}
+{{ $k }}:
+  {{ $v }}
+{{- end -}}
+{{- else if eq (include "pachyderm.storageBackend" .) "AMAZON" -}}
+type: gp3
+{{- else if eq (include "pachyderm.storageBackend" .) "GOOGLE" -}}
+type: pd-ssd
+{{- else if eq (include "pachyderm.storageBackend" .) "MICROSOFT" -}}
+storageaccounttype: Premium_LRS
+kind: Managed
+{{- end -}}
+{{- end -}}
+
+{{- define "pachyderm.etcd.storageProvisioner" -}}
+{{- if .Values.etcd.storageProvisioner -}}
+{{ .Values.etc.storageProvisioner }}
+{{- else if eq (include "pachyderm.storageBackend" .) "AMAZON" -}}
+kubernetes.io/aws-ebs
+{{- else if eq (include "pachyderm.storageBackend" .) "GOOGLE" -}}
+kubernetes.io/gce-pd
+{{- else if eq (include "pachyderm.storageBackend" .) "MICROSOFT" -}}
+kubernetes.io/azure-disk
+{{- end -}}
+{{- end -}}
+
+{{- define "pachyderm.postgresql.storageParameters" -}}
+{{- if .Values.postgresql.storageParameters -}}
+{{- range $k, $v := .Values.postgresql.storageParameters }}
+{{ $k }}:
+  {{ $v }}
+{{- end -}}
+{{- else if eq (include "pachyderm.storageBackend" .) "AMAZON" -}}
+type: gp3
+{{- else if eq (include "pachyderm.storageBackend" .) "GOOGLE" -}}
+type: pd-ssd
+{{- else if eq (include "pachyderm.storageBackend" .) "MICROSOFT" -}}
+storageaccounttype: Premium_LRS
+kind: Managed
+{{- end -}}
+{{- end -}}
+
+{{- define "pachyderm.postgresql.storageProvisioner" -}}
+{{- if .Values.postgresql.storageProvisioner -}}
+{{ .Values.etc.storageProvisioner }}
+{{- else if eq (include "pachyderm.storageBackend" .) "AMAZON" -}}
+kubernetes.io/aws-ebs
+{{- else if eq (include "pachyderm.storageBackend" .) "GOOGLE" -}}
+kubernetes.io/gce-pd
+{{- else if eq (include "pachyderm.storageBackend" .) "MICROSOFT" -}}
+kubernetes.io/azure-disk
+{{- end -}}
+{{- end -}}

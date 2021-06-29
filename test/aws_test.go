@@ -105,7 +105,7 @@ func TestAWS(t *testing.T) {
 	}
 	var (
 		expectedServiceAccount = "my-fine-sa"
-		expectedProvisioner    = "ebs.csi.aws.com"
+		expectedProvisioner    = "kubernetes.io/aws-ebs"
 		expectedStorageBackend = "AMAZON"
 	)
 

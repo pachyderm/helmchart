@@ -7,8 +7,8 @@
 # In accordance with pachctl deploy it is _not_ per-image.
 imagePullSecret: ""
 
-# Deploy Target configures the storage backend to use and cloud provider 
-# settings (storage classes, etc). It must be one of GOOGLE, AMAZON, 
+# Deploy Target configures the storage backend to use and cloud provider
+# settings (storage classes, etc). It must be one of GOOGLE, AMAZON,
 # MINIO, MICROSOFT, CUSTOM or LOCAL.
 deployTarget: ""
 
@@ -87,10 +87,18 @@ etcd:
     #requests:
     #  cpu: "1"
     #  memory: "2G"
-  # storageClass indicates the etcd should use an existing
+  # storageClass indicates that etcd should use an existing
   # StorageClass for its storage.  It is analogous to the
   # --etcd-storage-class argument to pachctl deploy.
   storageClass: ""
+  # storageParameters specifies the parameters to use when creating a
+  # new storage class.  It is safe to leave this blank and take the
+  # default.
+  storageParameters: {}
+  # storageProvisioner specifies the provisioner to use when creating
+  # a new storage class.  It is safe to leave this blank and take the
+  # default.
+  storageProvisioner: ""
   # storageSize specifies the size of the volume to use for etcd.
   # If you do not specify, it will default to 256Gi on Azure and 100Gi on GCP/AWS
   storageSize: ""
@@ -165,7 +173,7 @@ pachd:
     name: "pachyderm" #TODO Set default in helpers / Wire up in templates
   storage:
     # backend configures the storage backend to use.  It must be one
-    # of GOOGLE, AMAZON, MINIO, MICROSOFT or LOCAL. This is set automatically 
+    # of GOOGLE, AMAZON, MINIO, MICROSOFT or LOCAL. This is set automatically
     # if deployTarget is GOOGLE, AMAZON, MICROSOFT, or LOCAL
     backend: ""
     amazon:
@@ -311,7 +319,18 @@ worker:
 postgresql:
   # Set to false if you are bringing your own PostgreSQL instance. PostgreSQL is a requirement for Pachyderm.
   enabled: true
+  # storageClass indicates that PostgreSQL should use an existing
+  # StorageClass for its storage.  It is analogous to the
+  # --etcd-storage-class argument to pachctl deploy.
   storageClass: ""
+  # storageParameters specifies the parameters to use when creating a
+  # new storage class.  It is safe to leave this blank and take the
+  # default.
+  storageParameters: {}
+  # storageProvisioner specifies the provisioner to use when creating
+  # a new storage class.  It is safe to leave this blank and take the
+  # default.
+  storageProvisioner: ""
   service:
     type: "ClusterIP"
   resources: {}

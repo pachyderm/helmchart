@@ -12,7 +12,6 @@ metadata:
     suite: pachyderm
   name: etcd-storage-class
 parameters:
-  storageaccounttype: Premium_LRS
-  kind: Managed
-provisioner: kubernetes.io/azure-disk
+{{ include "pachyderm.etcd.storageParameters" . | indent 2}}
+provisioner: {{ include "pachyderm.etcd.storageProvisioner" . }}
 {{ end -}}
