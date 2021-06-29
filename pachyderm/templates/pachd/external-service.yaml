@@ -16,7 +16,7 @@ spec:
   - name: api-http-port
     port: {{ .Values.pachd.externalService.apiHTTPPort }}
     targetPort: api-http-port
-  - name: s3-gateway-port
+  - name: s3gateway-port
     port: {{ .Values.pachd.externalService.s3GatewayPort }} 
     targetPort: s3gateway-port
   selector:
