@@ -2,6 +2,51 @@
     "$schema": "http://json-schema.org/schema#",
     "type": "object",
     "properties": {
+        "cloudsqlAuthProxy": {
+            "type": "object",
+            "properties": {
+                "connectionName": {
+                    "type": "string"
+                },
+                "enabled": {
+                    "type": "boolean"
+                },
+                "image": {
+                    "type": "object",
+                    "properties": {
+                        "pullPolicy": {
+                            "type": "string"
+                        },
+                        "repository": {
+                            "type": "string"
+                        },
+                        "tag": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "podLabels": {
+                    "type": "object"
+                },
+                "port": {
+                    "type": "integer"
+                },
+                "resources": {
+                    "type": "object"
+                },
+                "service": {
+                    "type": "object",
+                    "properties": {
+                        "labels": {
+                            "type": "object"
+                        },
+                        "type": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "dash": {
             "type": "object",
             "properties": {
@@ -299,31 +344,6 @@
                 "postgresql": {
                     "type": "object",
                     "properties": {
-                        "cloudsqlAuthProxy": {
-                            "type": "object",
-                            "properties": {
-                                "connectionName": {
-                                    "type": "string"
-                                },
-                                "enabled": {
-                                    "type": "boolean"
-                                },
-                                "image": {
-                                    "type": "object",
-                                    "properties": {
-                                        "repository": {
-                                            "type": "string"
-                                        },
-                                        "tag": {
-                                            "type": "string"
-                                        }
-                                    }
-                                },
-                                "resources": {
-                                    "type": "object"
-                                }
-                            }
-                        },
                         "host": {
                             "type": "string"
                         },

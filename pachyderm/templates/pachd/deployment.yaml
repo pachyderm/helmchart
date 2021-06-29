@@ -165,22 +165,6 @@ spec:
         - mountPath: /pachd-tls-cert
           name: pachd-tls-cert
         {{- end }}
-      {{- if and (eq .Values.deployTarget "LOCAL") .Values.pachd.storage.local.requireRoot }}
-      securityContext:
-        runAsUser: 0 # Need to run as root local for hostpath support
-        {{- if .Values.pachd.postgresql.clousql-auth-proxy.enabled }}
-      - name: cloud-sql-proxy
-        image: {{ .Values.pachd.postgresql.cloudsqlAuthProxy.image.repository }}:{{ .Values.pachd.postgresql.cloudsqlAuthProxy.image.tag }}
-        command:
-          - "/cloud_sql_proxy"
-          - "-enable-iam-login"
-          - "-instances={{ .Values.pachd.postgresql.cloudsqlAuthProxy.connectionName }}=tcp:{{ .Values.pachd.postgresql.port }}"
-        securityContext:
-          # The default Cloud SQL proxy image runs as the
-          # "nonroot" user and group (uid: 65532) by default.
-          runAsNonRoot: true
-        resources: {{ toYaml .Values.pachd.postgresql.cloudsqlAuthProxy.resources | nindent 10 }}
-      {{- end }}
       {{- if .Values.pachd.serviceAccount.name }}
       serviceAccountName: {{ .Values.pachd.serviceAccount.name | quote }}
       {{- end }}
