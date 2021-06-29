@@ -13,9 +13,9 @@ metadata:
     app: "dash"
     suite: "pachyderm"
 spec:
-  {{- if .Values.dash.tls.enabled }}
+  {{- if .Values.dash.ingress.tls.enabled }}
   tls:
-    - secretName: {{ required "if dash.tls.enabled you must specify dash.tls.secretName" .Values.dash.tls.secretName }}
+    - secretName: {{ required "if dash.ingress.tls.enabled you must specify dash.ingress.tls.secretName" .Values.dash.ingress.tls.secretName }}
   {{- end }}
   rules:
     - host: {{ required "dash.ingress.host is required when dash.ingress.enabled" .Values.dash.ingress.host | quote }}

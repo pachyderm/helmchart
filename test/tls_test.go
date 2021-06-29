@@ -72,9 +72,9 @@ func TestEnableDashTLSNoName(t *testing.T) {
 	helmChartPath := "../pachyderm"
 	options := &helm.Options{
 		SetValues: map[string]string{
-			"pachd.storage.backend": "LOCAL",
-			"dash.tls.enabled":      "true",
-			"dash.ingress.host":     "http://blah.com",
+			"pachd.storage.backend":    "LOCAL",
+			"dash.ingress.tls.enabled": "true",
+			"dash.ingress.host":        "http://blah.com",
 		},
 	}
 
@@ -88,11 +88,11 @@ func TestEnableDashTLSExistingSecret(t *testing.T) {
 	helmChartPath := "../pachyderm"
 	options := &helm.Options{
 		SetValues: map[string]string{
-			"pachd.storage.backend": "LOCAL",
-			"dash.tls.enabled":      "true",
-			"dash.tls.secretName":   "blah",
-			"dash.ingress.enabled":  "true",
-			"dash.ingress.host":     "http://blah.com",
+			"pachd.storage.backend":       "LOCAL",
+			"dash.ingress.tls.enabled":    "true",
+			"dash.ingress.tls.secretName": "blah",
+			"dash.ingress.enabled":        "true",
+			"dash.ingress.host":           "http://blah.com",
 		},
 	}
 
@@ -116,9 +116,9 @@ func TestDashTLSNewSecretNoEnable(t *testing.T) {
 	helmChartPath := "../pachyderm"
 	options := &helm.Options{
 		SetValues: map[string]string{
-			"pachd.storage.backend":  "LOCAL",
-			"dash.tls.newSecret.crt": "blah",
-			"dash.ingress.host":      "http://blah.com",
+			"pachd.storage.backend":          "LOCAL",
+			"dash.ingress.tls.newSecret.crt": "blah",
+			"dash.ingress.host":              "http://blah.com",
 		},
 	}
 
