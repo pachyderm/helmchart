@@ -1,15 +1,13 @@
-{{- if .Values.loadBalancer.ip -}}
+{{- if .Values.pachd.externalService.enabled -}}
 apiVersion: v1
 kind: Service
 metadata:
   annotations:
-    #prometheus.io/port: "656"
-    #prometheus.io/scrape: "true"
   labels:
     app: pachd
     suite: pachyderm
   name: pachd-lb
-  namespace: default
+  namespace: {{ .Release.Namespace }}
 spec:
   ports:
   - name: api-grpc-port
@@ -24,5 +22,5 @@ spec:
   selector:
     app: pachd
   type: LoadBalancer
-  loadBalancerIP: {{ .Values.loadBalancer.ip }}
+  loadBalancerIP: {{ .Values.pachd.externalService.loadBalancerIP }}
 {{ end -}}

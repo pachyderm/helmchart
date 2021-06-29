@@ -126,14 +126,6 @@
         "imagePullSecret": {
             "type": "string"
         },
-        "loadBalancer": {
-            "type": "object",
-            "properties": {
-                "ip": {
-                    "type": "string"
-                }
-            }
-        },
         "pachd": {
             "type": "object",
             "properties": {
@@ -154,6 +146,17 @@
                 },
                 "exposeObjectAPI": {
                     "type": "boolean"
+                },
+                "externalService": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "loadBalancerIP": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "goMaxProcs": {
                     "type": "integer"
