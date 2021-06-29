@@ -302,6 +302,9 @@
                         "cloudsqlAuthProxy": {
                             "type": "object",
                             "properties": {
+                                "connectionName": {
+                                    "type": "string"
+                                },
                                 "enabled": {
                                     "type": "boolean"
                                 },
@@ -317,20 +320,7 @@
                                     }
                                 },
                                 "resources": {
-                                    "type": "object",
-                                    "properties": {
-                                        "requests": {
-                                            "type": "object",
-                                            "properties": {
-                                                "cpu": {
-                                                    "type": "string"
-                                                },
-                                                "memory": {
-                                                    "type": "string"
-                                                }
-                                            }
-                                        }
-                                    }
+                                    "type": "object"
                                 }
                             }
                         },

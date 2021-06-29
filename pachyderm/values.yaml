@@ -171,19 +171,20 @@ pachd:
     password: ""
     cloudsqlAuthProxy:
       enabled: true
+      connectionName: ""
       image:
         repository: "gcr.io/cloudsql-docker/gce-proxy"
         tag: "1.23.0"
-      resources:
-        requests:
-          # The proxy's memory use scales linearly with the number of active
-          # connections. Fewer open connections will use less memory. Adjust
-          # this value based on your application's requirements.
-          memory: "2Gi"
-          # The proxy's CPU use scales linearly with the amount of IO between
-          # the database and the application. Adjust this value based on your
-          # application's requirements.
-          cpu: "1"
+      resources: {}
+        # requests:
+          #   The proxy's memory use scales linearly with the number of active
+          #   connections. Fewer open connections will use less memory. Adjust
+          #   this value based on your application's requirements.
+          # memory: ""
+          #   The proxy's CPU use scales linearly with the amount of IO between
+          #   the database and the application. Adjust this value based on your
+          #   application's requirements.
+          # cpu: ""
 
   requireCriticalServersOnly: false
   # If enabled, External service creates a service which is safe to
