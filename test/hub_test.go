@@ -131,11 +131,11 @@ func TestHub(t *testing.T) {
 				for _, port := range object.Spec.Ports {
 					ep, ok := expectedPorts[port.Name]
 					if !ok {
-						t.Errorf("Did not find port %q in expected ports", port.Name)
+						t.Errorf("did not find port %q in expected ports", port.Name)
 						continue
 					}
 					if ep.port != int(port.Port) {
-						t.Errorf("Wanted %q, for Port: %q, Got: %d", ep.port, port.Name, port.Port)
+						t.Errorf("wanted %q, for port: %q, Got: %d", ep.port, port.Name, port.Port)
 						continue
 					}
 					ep.found = true
@@ -143,7 +143,7 @@ func TestHub(t *testing.T) {
 
 				for portName, check := range expectedPorts {
 					if !check.found {
-						t.Errorf("Expected Port %q, not found", portName)
+						t.Errorf("expected port: %q, not found", portName)
 					}
 				}
 
