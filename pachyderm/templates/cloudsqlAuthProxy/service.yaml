@@ -18,9 +18,9 @@ spec:
   ports:
   - name: postgres
     {{- if eq .Values.cloudsqlAuthProxy.service.type "NodePort" }}
-    nodePort: 35342
+    nodePort: 35432
     {{- end }}
-    port: 5342
+    port: 5432
   selector:
     app: cloudsql-auth-proxy
     suite: pachyderm
