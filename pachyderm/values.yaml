@@ -357,6 +357,7 @@ postgresql:
 cloudsqlAuthProxy:
   # connectionName may be found by running `gcloud sql instances describe INSTANCE_NAME --project PROJECT_ID`
   connectionName: ""
+  serviceAccount: ""
   port: 5432
   enabled: true
   image:
