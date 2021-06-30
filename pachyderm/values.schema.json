@@ -347,6 +347,9 @@
                 "postgresql": {
                     "type": "object",
                     "properties": {
+                        "dbName": {
+                            "type": "string"
+                        },
                         "host": {
                             "type": "string"
                         },

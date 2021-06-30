@@ -317,6 +317,7 @@ pachd:
     ssl: "disable"
     user: ""
     password: ""
+    dbName: ""
 
 rbac:
   # create indicates whether RBAC resources should be created.
