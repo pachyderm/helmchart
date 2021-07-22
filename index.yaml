@@ -12,6 +12,34 @@ entries:
           url: https://github.com/pachyderm/helmchart
       artifacthub.io/prerelease: "true"
     apiVersion: v2
+    appVersion: 2.0.0-beta.3
+    created: "2021-07-22T23:20:29.948658699Z"
+    description: Explainable, repeatable, scalable data science
+    digest: 0f5069f95e55c97edc94cb38e9dafdf6772badba91483b6ecbc7faa8adad1c68
+    home: https://www.pachyderm.com/
+    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
+    keywords:
+    - data science
+    kubeVersion: '>= 1.16.0-0'
+    name: pachyderm
+    sources:
+    - https://github.com/pachyderm/pachyderm
+    - https://github.com/pachyderm/helmchart
+    type: application
+    urls:
+    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.0.0-beta.3/pachyderm-2.0.0-beta.3.tgz
+    version: 2.0.0-beta.3
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: "Pachyderm"
+          url: https://www.pachyderm.com/
+        - name: "Pachyderm repo"
+          url: https://github.com/pachyderm/pachyderm
+        - name: "Chart repo"
+          url: https://github.com/pachyderm/helmchart
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
     appVersion: 2.0.0-beta.2
     created: "2021-07-16T16:57:36.02040362Z"
     description: Explainable, repeatable, scalable data science
@@ -727,4 +755,4 @@ entries:
     urls:
     - https://github.com/pachyderm/helmchart/releases/download/pachyderm-0.1.0/pachyderm-0.1.0.tgz
     version: 0.1.0
-generated: "2021-07-16T16:57:36.020810094Z"
+generated: "2021-07-22T23:20:29.949341028Z"
