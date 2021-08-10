@@ -514,6 +514,18 @@ entries:
     - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.0.0-alpha.1/pachyderm-2.0.0-alpha.1.tgz
     version: 2.0.0-alpha.1
   - apiVersion: v2
+    appVersion: 1.13.4
+    created: "2021-08-10T23:27:17.778324009Z"
+    description: Explainable, repeatable, scalable data science
+    digest: 53eb6493ea7b0e235f9cfc1d9a22a463475c3793f65b099c5a1d573e7afa5066
+    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
+    kubeVersion: '>= 1.16.0-0'
+    name: pachyderm
+    type: application
+    urls:
+    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-0.6.6/pachyderm-0.6.6.tgz
+    version: 0.6.6
+  - apiVersion: v2
     appVersion: 1.13.3
     created: "2021-06-21T21:44:27.667429138Z"
     description: Explainable, repeatable, scalable data science
