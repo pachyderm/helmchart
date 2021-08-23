@@ -1,3 +1,0 @@
-etcd:
-  podLabels:
-    myApp: Blah123

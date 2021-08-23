@@ -1,4 +1,0 @@
-pachd:
-  serviceAccount:
-    additionalAnnotations:
-      eks.amazonaws.com/role-arn: blah123
