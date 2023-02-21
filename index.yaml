@@ -12,6 +12,43 @@ entries:
           url: https://github.com/pachyderm/helmchart
       artifacthub.io/prerelease: "true"
     apiVersion: v2
+    appVersion: 2.6.0-nightly.2023022101
+    created: "2023-02-21T19:13:40.378934389Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: file://./dependencies/postgresql
+      version: 10.8.0
+    - condition: pachd.lokiDeploy
+      name: loki-stack
+      repository: https://grafana.github.io/helm-charts
+      version: 2.8.1
+    description: Explainable, repeatable, scalable data science
+    digest: 0b625f8736f3ca8b520d0203a20c0637f5842ec41d6113a0d991fe29e2e19210
+    home: https://www.pachyderm.com/
+    icon: https://www.pachyderm.com/wp-content/themes/pachyderm/assets/img/favicons/favicon-32x32.png
+    keywords:
+    - data science
+    kubeVersion: '>= 1.16.0-0'
+    name: pachyderm
+    sources:
+    - https://github.com/pachyderm/pachyderm
+    - https://github.com/pachyderm/helmchart
+    type: application
+    urls:
+    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.6.0-nightly.2023022101-0f8b32546061d28c5cbfa2304919836dd11c1ac3/pachyderm-2.6.0-nightly.2023022101-0f8b32546061d28c5cbfa2304919836dd11c1ac3.tgz
+    version: 2.6.0-nightly.2023022101-0f8b32546061d28c5cbfa2304919836dd11c1ac3
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: "Pachyderm"
+          url: https://www.pachyderm.com/
+        - name: "Pachyderm repo"
+          url: https://github.com/pachyderm/pachyderm
+        - name: "Chart repo"
+          url: https://github.com/pachyderm/helmchart
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
     appVersion: 2.6.0-nightly.20230221
     created: "2023-02-21T08:11:22.220433889Z"
     dependencies:
@@ -8375,43 +8412,6 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 2.1.4
-    created: "2022-03-30T00:10:19.923159465Z"
-    dependencies:
-    - condition: postgresql.enabled
-      name: postgresql
-      repository: file://../charts/postgresql
-      version: 10.8.0
-    - condition: pachd.lokiDeploy
-      name: loki-stack
-      repository: https://grafana.github.io/helm-charts
-      version: 2.5.1
-    description: Explainable, repeatable, scalable data science
-    digest: 4f976da036fb9c29f4f99aef7fcf4c034d3817130c0d1f4c2eabda7cff24cdc8
-    home: https://www.pachyderm.com/
-    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
-    keywords:
-    - data science
-    kubeVersion: '>= 1.16.0-0'
-    name: pachyderm
-    sources:
-    - https://github.com/pachyderm/pachyderm
-    - https://github.com/pachyderm/helmchart
-    type: application
-    urls:
-    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.1.4-770fd609b1cc89c4f81eb59cd8b5813829a3e829/pachyderm-2.1.4-770fd609b1cc89c4f81eb59cd8b5813829a3e829.tgz
-    version: 2.1.4-770fd609b1cc89c4f81eb59cd8b5813829a3e829
-  - annotations:
-      artifacthub.io/license: Apache-2.0
-      artifacthub.io/links: |
-        - name: "Pachyderm"
-          url: https://www.pachyderm.com/
-        - name: "Pachyderm repo"
-          url: https://github.com/pachyderm/pachyderm
-        - name: "Chart repo"
-          url: https://github.com/pachyderm/helmchart
-      artifacthub.io/prerelease: "false"
-    apiVersion: v2
-    appVersion: 2.1.4
     created: "2022-03-29T23:22:30.151670838Z"
     dependencies:
     - condition: postgresql.enabled
@@ -8449,7 +8449,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 2.1.4
-    created: "2022-03-30T21:45:35.801904699Z"
+    created: "2022-03-30T00:10:19.923159465Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -8460,7 +8460,44 @@ entries:
       repository: https://grafana.github.io/helm-charts
       version: 2.5.1
     description: Explainable, repeatable, scalable data science
-    digest: 661c1341a96e53d37923dbc79f473a633baa0804ffa54489c1851993615b080d
+    digest: 4f976da036fb9c29f4f99aef7fcf4c034d3817130c0d1f4c2eabda7cff24cdc8
+    home: https://www.pachyderm.com/
+    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
+    keywords:
+    - data science
+    kubeVersion: '>= 1.16.0-0'
+    name: pachyderm
+    sources:
+    - https://github.com/pachyderm/pachyderm
+    - https://github.com/pachyderm/helmchart
+    type: application
+    urls:
+    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.1.4-770fd609b1cc89c4f81eb59cd8b5813829a3e829/pachyderm-2.1.4-770fd609b1cc89c4f81eb59cd8b5813829a3e829.tgz
+    version: 2.1.4-770fd609b1cc89c4f81eb59cd8b5813829a3e829
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: "Pachyderm"
+          url: https://www.pachyderm.com/
+        - name: "Pachyderm repo"
+          url: https://github.com/pachyderm/pachyderm
+        - name: "Chart repo"
+          url: https://github.com/pachyderm/helmchart
+      artifacthub.io/prerelease: "false"
+    apiVersion: v2
+    appVersion: 2.1.4
+    created: "2022-03-30T21:47:43.842971607Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: file://../charts/postgresql
+      version: 10.8.0
+    - condition: pachd.lokiDeploy
+      name: loki-stack
+      repository: https://grafana.github.io/helm-charts
+      version: 2.5.1
+    description: Explainable, repeatable, scalable data science
+    digest: 0aa5f0af7c891ac72d1c6e0ff2aa40c216df760c47db642b3c5e3cd666a17652
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -8486,7 +8523,7 @@ entries:
       artifacthub.io/prerelease: "false"
     apiVersion: v2
     appVersion: 2.1.4
-    created: "2022-03-30T21:47:43.842971607Z"
+    created: "2022-03-30T21:45:35.801904699Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -8497,7 +8534,7 @@ entries:
       repository: https://grafana.github.io/helm-charts
       version: 2.5.1
     description: Explainable, repeatable, scalable data science
-    digest: 0aa5f0af7c891ac72d1c6e0ff2aa40c216df760c47db642b3c5e3cd666a17652
+    digest: 661c1341a96e53d37923dbc79f473a633baa0804ffa54489c1851993615b080d
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -8745,43 +8782,6 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.1.0-rc.1
-    created: "2022-02-09T22:50:07.414351154Z"
-    dependencies:
-    - condition: postgresql.enabled
-      name: postgresql
-      repository: file://../charts/postgresql
-      version: 10.8.0
-    - condition: pachd.lokiDeploy
-      name: loki-stack
-      repository: https://grafana.github.io/helm-charts
-      version: 2.5.1
-    description: Explainable, repeatable, scalable data science
-    digest: 6c9da4c764cf6522aa2d142ff7e79aea6d28f712a413d42cd4859ebdadb930f8
-    home: https://www.pachyderm.com/
-    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
-    keywords:
-    - data science
-    kubeVersion: '>= 1.16.0-0'
-    name: pachyderm
-    sources:
-    - https://github.com/pachyderm/pachyderm
-    - https://github.com/pachyderm/helmchart
-    type: application
-    urls:
-    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.1.0-rc.1/pachyderm-2.1.0-rc.1.tgz
-    version: 2.1.0-rc.1
-  - annotations:
-      artifacthub.io/license: Apache-2.0
-      artifacthub.io/links: |
-        - name: "Pachyderm"
-          url: https://www.pachyderm.com/
-        - name: "Pachyderm repo"
-          url: https://github.com/pachyderm/pachyderm
-        - name: "Chart repo"
-          url: https://github.com/pachyderm/helmchart
-      artifacthub.io/prerelease: "true"
-    apiVersion: v2
-    appVersion: 2.1.0-rc.1
     created: "2022-02-09T23:00:31.477487406Z"
     dependencies:
     - condition: postgresql.enabled
@@ -8819,7 +8819,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.1.0-rc.1
-    created: "2022-02-09T23:05:38.048128722Z"
+    created: "2022-02-09T22:50:07.414351154Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -8830,7 +8830,7 @@ entries:
       repository: https://grafana.github.io/helm-charts
       version: 2.5.1
     description: Explainable, repeatable, scalable data science
-    digest: fd75f4e507c224ef802fd370df0ee62f014e4a66076474de6e1a84540154671e
+    digest: 6c9da4c764cf6522aa2d142ff7e79aea6d28f712a413d42cd4859ebdadb930f8
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -8856,7 +8856,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.1.0-rc.1
-    created: "2022-02-09T22:53:23.54279016Z"
+    created: "2022-02-09T22:54:54.141925875Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -8867,7 +8867,7 @@ entries:
       repository: https://grafana.github.io/helm-charts
       version: 2.5.1
     description: Explainable, repeatable, scalable data science
-    digest: 2ef9621a5b10b2717364c9e723186dd670d06b96dce16695b7583441b183ca95
+    digest: b7be1e83f56892da4e19136ea8a9e6e903a7ac4125bd07af22651816e67ba8a7
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -8967,7 +8967,7 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.1.0-rc.1
-    created: "2022-02-09T22:54:54.141925875Z"
+    created: "2022-02-09T22:53:23.54279016Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -8978,7 +8978,44 @@ entries:
       repository: https://grafana.github.io/helm-charts
       version: 2.5.1
     description: Explainable, repeatable, scalable data science
-    digest: b7be1e83f56892da4e19136ea8a9e6e903a7ac4125bd07af22651816e67ba8a7
+    digest: 2ef9621a5b10b2717364c9e723186dd670d06b96dce16695b7583441b183ca95
+    home: https://www.pachyderm.com/
+    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
+    keywords:
+    - data science
+    kubeVersion: '>= 1.16.0-0'
+    name: pachyderm
+    sources:
+    - https://github.com/pachyderm/pachyderm
+    - https://github.com/pachyderm/helmchart
+    type: application
+    urls:
+    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.1.0-rc.1/pachyderm-2.1.0-rc.1.tgz
+    version: 2.1.0-rc.1
+  - annotations:
+      artifacthub.io/license: Apache-2.0
+      artifacthub.io/links: |
+        - name: "Pachyderm"
+          url: https://www.pachyderm.com/
+        - name: "Pachyderm repo"
+          url: https://github.com/pachyderm/pachyderm
+        - name: "Chart repo"
+          url: https://github.com/pachyderm/helmchart
+      artifacthub.io/prerelease: "true"
+    apiVersion: v2
+    appVersion: 2.1.0-rc.1
+    created: "2022-02-09T23:05:38.048128722Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: file://../charts/postgresql
+      version: 10.8.0
+    - condition: pachd.lokiDeploy
+      name: loki-stack
+      repository: https://grafana.github.io/helm-charts
+      version: 2.5.1
+    description: Explainable, repeatable, scalable data science
+    digest: fd75f4e507c224ef802fd370df0ee62f014e4a66076474de6e1a84540154671e
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -9540,14 +9577,14 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.0.0-rc.1
-    created: "2021-08-24T22:17:06.707846564Z"
+    created: "2021-08-24T22:04:34.634094832Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
       repository: file://../charts/postgresql
       version: 10.8.0
     description: Explainable, repeatable, scalable data science
-    digest: ac06cbb8024bd31805b9f20e719115e6fac9dfc2dd2ac47aff23904de9db207e
+    digest: 6ef194667061ec8d2dd48935742dcb8eaed1a2646f521849a442000f851ddc3f
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -9606,14 +9643,14 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.0.0-rc.1
-    created: "2021-08-24T22:04:34.634094832Z"
+    created: "2021-08-24T22:17:06.707846564Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
       repository: file://../charts/postgresql
       version: 10.8.0
     description: Explainable, repeatable, scalable data science
-    digest: 6ef194667061ec8d2dd48935742dcb8eaed1a2646f521849a442000f851ddc3f
+    digest: ac06cbb8024bd31805b9f20e719115e6fac9dfc2dd2ac47aff23904de9db207e
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -9804,14 +9841,14 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.0.0-beta.6
-    created: "2021-08-20T14:59:26.432146081Z"
+    created: "2021-08-20T15:32:04.19378924Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
       repository: file://../charts/postgresql
       version: 10.8.0
     description: Explainable, repeatable, scalable data science
-    digest: b03d650aaa578c5ab7699e21d8303c5831f400fb701e87ea7984429e09b91511
+    digest: 2092eec53d4667d405ad9043fbd533b1a9adb19d93d58fdef71a41bb590756df
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -9837,14 +9874,14 @@ entries:
       artifacthub.io/prerelease: "true"
     apiVersion: v2
     appVersion: 2.0.0-beta.6
-    created: "2021-08-20T15:32:04.19378924Z"
+    created: "2021-08-20T14:59:26.432146081Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
       repository: file://../charts/postgresql
       version: 10.8.0
     description: Explainable, repeatable, scalable data science
-    digest: 2092eec53d4667d405ad9043fbd533b1a9adb19d93d58fdef71a41bb590756df
+    digest: b03d650aaa578c5ab7699e21d8303c5831f400fb701e87ea7984429e09b91511
     home: https://www.pachyderm.com/
     icon: https://www.pachyderm.com/favicons/favicon-32x32.png
     keywords:
@@ -10336,6 +10373,18 @@ entries:
     version: 2.0.0-alpha.2
   - apiVersion: v2
     appVersion: 2.0.0-alpha.15
+    created: "2021-05-24T14:38:51.01799014Z"
+    description: A Helm chart for Kubernetes
+    digest: f0293628e46996479044553414d3b34aa385aade691165669ee74faf01798cb3
+    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
+    kubeVersion: '>= 1.16.0-0'
+    name: pachyderm
+    type: application
+    urls:
+    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.0.0-alpha.1/pachyderm-2.0.0-alpha.1.tgz
+    version: 2.0.0-alpha.1
+  - apiVersion: v2
+    appVersion: 2.0.0-alpha.15
     created: "2021-05-24T14:25:22.784595728Z"
     description: A Helm chart for Kubernetes
     digest: 62f99f3a61df80f017f6b7ac0c84bff8f673cddc6ede9ebf209677ee84d33f17
@@ -10358,18 +10407,6 @@ entries:
     urls:
     - https://github.com/pachyderm/helmchart/releases/download/pachyderm-v2.0.0-alpha.1/pachyderm-v2.0.0-alpha.1.tgz
     version: v2.0.0-alpha.1
-  - apiVersion: v2
-    appVersion: 2.0.0-alpha.15
-    created: "2021-05-24T14:38:51.01799014Z"
-    description: A Helm chart for Kubernetes
-    digest: f0293628e46996479044553414d3b34aa385aade691165669ee74faf01798cb3
-    icon: https://www.pachyderm.com/favicons/favicon-32x32.png
-    kubeVersion: '>= 1.16.0-0'
-    name: pachyderm
-    type: application
-    urls:
-    - https://github.com/pachyderm/helmchart/releases/download/pachyderm-2.0.0-alpha.1/pachyderm-2.0.0-alpha.1.tgz
-    version: 2.0.0-alpha.1
   - apiVersion: v2
     appVersion: 1.13.4
     created: "2021-08-10T23:27:17.778324009Z"
@@ -11078,4 +11115,4 @@ entries:
     urls:
     - https://github.com/pachyderm/helmchart/releases/download/pachyderm-0.0.35-test-2823b024d3226ab2ceffff2d2f9d1c77396a1232/pachyderm-0.0.35-test-2823b024d3226ab2ceffff2d2f9d1c77396a1232.tgz
     version: 0.0.35-test-2823b024d3226ab2ceffff2d2f9d1c77396a1232
-generated: "2023-02-21T08:11:22.236123272Z"
+generated: "2023-02-21T19:13:40.38796765Z"
